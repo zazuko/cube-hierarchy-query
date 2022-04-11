@@ -1,10 +1,10 @@
 import { Term } from 'rdf-js'
 import { MultiPointer } from 'clownface'
-import { sparql } from '@tpluscode/sparql-builder'
+import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
 import { toSparql } from 'clownface-shacl-path'
 import { parent } from './variable'
 
-export function anyPath(subject: Term, path: MultiPointer, level: number) {
+export function anyPath(subject: Term, path: MultiPointer, level: number): SparqlTemplateResult {
   const inverse = path.term?.termType === 'BlankNode'
   if (inverse) {
     return sparql`${subject} ?property ${parent(level)} .`
@@ -13,6 +13,6 @@ export function anyPath(subject: Term, path: MultiPointer, level: number) {
   return sparql`${parent(level)} ?property ${subject} .`
 }
 
-export function requiredPath(subject: Term, path: MultiPointer, level: number) {
+export function requiredPath(subject: Term, path: MultiPointer, level: number): SparqlTemplateResult {
   return sparql`${parent(level)} ${toSparql(path)} ${subject} .`
 }

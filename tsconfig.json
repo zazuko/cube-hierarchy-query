@@ -3,6 +3,7 @@
     "target": "ES2019",
     "module": "ESNext",
     "moduleResolution": "Node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "declaration": true
   }
 }

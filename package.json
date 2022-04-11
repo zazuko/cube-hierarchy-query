@@ -16,7 +16,9 @@
   },
   "files": [
     "*.js",
-    "lib/*.js"
+    "*.d.ts",
+    "lib/*.js",
+    "lib/*.d.ts"
   ],
   "keywords": [
     "rdf",

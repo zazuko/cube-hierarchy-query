@@ -12,7 +12,7 @@ interface GetHierarchyPatterns {
   firstLevel(subject: Term, path: MultiPointer, level: number): SparqlTemplateResult
 }
 
-export function getHierarchyPatterns(hierarchyLevel: MultiPointer, { restrictTypes = true, firstLevel }: GetHierarchyPatterns) {
+export function getHierarchyPatterns(hierarchyLevel: MultiPointer, { restrictTypes = true, firstLevel }: GetHierarchyPatterns): SparqlTemplateResult {
   let currentLevel = hierarchyLevel
   let roots: Term[] = []
   let patterns = sparql``

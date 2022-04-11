@@ -9,6 +9,11 @@ import { variable } from '@rdfjs/data-model'
 import { getHierarchyPatterns } from './lib/patterns'
 import { requiredPath } from './lib/firstLevel'
 
+/**
+ * Creates a query to find an example resource found at the given level in hierarchy
+ *
+ * @param {GraphPointer} hierarchyLevel it must be a pointer to the full hierarchy dataset
+ */
 export function example(hierarchyLevel: GraphPointer): Construct | null {
   const patterns = getHierarchyPatterns(hierarchyLevel, {
     firstLevel: requiredPath,
@@ -36,6 +41,14 @@ interface Children {
   execute(client: StreamClient, rdf: DatasetCoreFactory): Promise<GraphPointer[]>
 }
 
+/**
+ * Creates a query to find a set of example resources found at the given level in hierarchy
+ *
+ * The results can be paged, ordered and sorted
+ *
+ * @param {GraphPointer} level it must be a pointer to the full hierarchy dataset
+ * @param {Term} parent
+ */
 export function children(level: GraphPointer, parent: Term, { limit = 1, offset = 0, orderBy = [] }: ChildrenOptions = {}): Children | null {
   const patterns = getHierarchyPatterns(level, {
     firstLevel: requiredPath,

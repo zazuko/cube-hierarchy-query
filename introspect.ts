@@ -5,6 +5,12 @@ import { meta } from './lib/ns'
 import { getHierarchyPatterns } from './lib/patterns'
 import { anyPath } from './lib/firstLevel'
 
+/**
+ * Creates a query to find properties connecting the given hierarchy
+ * level with its immediate parent.
+ *
+ * @param {GraphPointer} hierarchyLevel it must be a pointer to the full hierarchy dataset
+ */
 export function properties(hierarchyLevel: GraphPointer): Construct | null {
   const patterns = getHierarchyPatterns(hierarchyLevel, {
     firstLevel: anyPath,
@@ -28,6 +34,11 @@ export function properties(hierarchyLevel: GraphPointer): Construct | null {
     `
 }
 
+/**
+ * Creates a query to find all RDF types of resources at a given hierarchy level
+ *
+ * @param {GraphPointer} hierarchyLevel it must be a pointer to the full hierarchy dataset
+ */
 export function types(hierarchyLevel: GraphPointer): Construct | null {
   const patterns = getHierarchyPatterns(hierarchyLevel, {
     restrictTypes: false,

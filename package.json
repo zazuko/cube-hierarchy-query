@@ -1,0 +1,25 @@
+{
+  "name": "@zazuko/cube-hierarchy-query",
+  "version": "0.0.0",
+  "description": "Facilitates querying RDF cube hierarchies",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zazuko/cube-hierarchy-query.git"
+  },
+  "keywords": [
+    "rdf",
+    "cube",
+    "query",
+    "sparql"
+  ],
+  "author": "Zazuko GmbH",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zazuko/cube-hierarchy-query/issues"
+  },
+  "homepage": "https://github.com/zazuko/cube-hierarchy-query#readme"
+}

@@ -3,10 +3,12 @@
   "version": "0.0.0",
   "description": "Facilitates querying RDF cube hierarchies",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
     "test": "c8 --all --reporter=lcov mocha",
     "prepare": "husky install",
+    "prepack": "tsc",
     "release": "changeset publish"
   },
   "repository": {
@@ -76,7 +78,7 @@
       "ts"
     ],
     "require": [
-      "test/mocha-setup.js"
+      "test/mocha-setup.cjs"
     ]
   },
   "lint-staged": {

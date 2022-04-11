@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore --ignore-path .eslintignore",
+    "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore",
     "test": "c8 --all --reporter=lcov mocha",
     "prepare": "husky install",
     "prepack": "tsc",

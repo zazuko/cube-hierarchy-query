@@ -1,0 +1,10 @@
+{
+  "mode": "pre",
+  "tag": "pre",
+  "initialVersions": {
+    "@zazuko/cube-hierarchy-query": "0.0.0"
+  },
+  "changesets": [
+    "wild-weeks-tickle"
+  ]
+}

@@ -1,16 +1,16 @@
-import { CONSTRUCT, SELECT } from '@tpluscode/sparql-builder'
+import { Construct, CONSTRUCT, SELECT } from '@tpluscode/sparql-builder'
 import { rdfs } from '@tpluscode/rdf-ns-builders/strict'
 import { GraphPointer } from 'clownface'
 import { meta } from './lib/ns'
 import { getHierarchyPatterns } from './lib/patterns'
 import { anyPath } from './lib/firstLevel'
 
-export function properties(hierarchyLevel: GraphPointer): string {
+export function properties(hierarchyLevel: GraphPointer): Construct | null {
   const patterns = getHierarchyPatterns(hierarchyLevel, {
     firstLevel: anyPath,
   })
   if (!patterns) {
-    return ''
+    return null
   }
 
   return CONSTRUCT`?property ${rdfs.label} ?label`
@@ -26,16 +26,15 @@ export function properties(hierarchyLevel: GraphPointer): string {
 
       bind(if(bound(?rdfsLabel), concat(?rdfsLabel, " (", str(?property), ")"), str(?property)) as ?label)
     `
-    .build()
 }
 
-export function types(hierarchyLevel: GraphPointer): string {
+export function types(hierarchyLevel: GraphPointer): Construct | null {
   const patterns = getHierarchyPatterns(hierarchyLevel, {
     restrictTypes: false,
     firstLevel: anyPath,
   })
   if (!patterns) {
-    return ''
+    return null
   }
 
   return CONSTRUCT`?type ${rdfs.label} ?label`
@@ -55,5 +54,4 @@ export function types(hierarchyLevel: GraphPointer): string {
 
       bind(if(bound(?rdfsLabel), concat(?rdfsLabel, " (", str(?type), ")"), str(?type)) as ?label)
     `
-    .build()
 }

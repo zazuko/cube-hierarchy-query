@@ -47,7 +47,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await client.query.construct(query))
+      const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
       const result = clownface({ dataset })
@@ -67,7 +67,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await client.query.construct(query))
+      const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
       const results = clownface({ dataset })
@@ -92,7 +92,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await client.query.construct(query))
+      const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
       const result = clownface({ dataset })
@@ -128,7 +128,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.municipalityLevel))
 
       // when
-      const dataset = $rdf.dataset(await client.query.construct(query))
+      const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
       const result = clownface({ dataset })
@@ -164,7 +164,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.municipalityLevel))
 
       // then
-      expect(query).to.be.empty
+      expect(query).to.be.null
     })
   })
 
@@ -181,7 +181,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = types(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await client.query.construct(query))
+      const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
       const result = clownface({ dataset })
@@ -203,7 +203,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = types(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await client.query.construct(query))
+      const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
       const result = clownface({ dataset })

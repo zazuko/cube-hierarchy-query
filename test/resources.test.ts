@@ -50,7 +50,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       const query = example(hierarchy.namedNode(ex.firstLevel))
 
       // then
-      expect(query).to.be.empty
+      expect(query).to.be.null
     })
 
     it('returns single instance', async () => {
@@ -67,7 +67,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
 
       // when
       const query = example(hierarchy.namedNode(ex.firstLevel))
-      const dataset = $rdf.dataset(await client.query.construct(query))
+      const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
       const country = clownface({ dataset }).has(rdf.type)
@@ -91,7 +91,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
 
       // when
       const query = example(hierarchy.namedNode(ex.firstLevel))
-      const dataset = $rdf.dataset(await client.query.construct(query))
+      const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
       const country = clownface({ dataset }).has(rdf.type)

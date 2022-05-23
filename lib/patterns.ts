@@ -1,5 +1,5 @@
 import { Term } from 'rdf-js'
-import { variable } from '@rdfjs/data-model'
+import rdf from '@rdfjs/data-model'
 import { MultiPointer } from 'clownface'
 import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
 import { sh } from '@tpluscode/rdf-ns-builders/strict'
@@ -16,7 +16,7 @@ export function getHierarchyPatterns(hierarchyLevel: MultiPointer, { restrictTyp
   let currentLevel = hierarchyLevel
   let roots: Term[] = []
   let patterns = sparql``
-  let subject = variable('this')
+  let subject = rdf.variable('this')
   let level = 1
 
   // walk up meta:nextInHierarchy and collect all paths

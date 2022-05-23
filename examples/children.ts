@@ -33,7 +33,7 @@ const hierarchy = dimensions
 
 // Take the first level and a root
 let level = hierarchy.out(meta.nextInHierarchy).toArray().shift()
-const root = hierarchy.out(meta.hierarchyRoot).toArray()[1].term
+const root = hierarchy.out(meta.hierarchyRoot).terms.shift()
 
 // Drill down into subsequent hierarchy levels by expanding the first child every time
 while (level) {

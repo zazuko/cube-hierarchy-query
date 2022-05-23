@@ -1,9 +1,9 @@
 import { Construct, CONSTRUCT, SELECT } from '@tpluscode/sparql-builder'
 import { rdfs } from '@tpluscode/rdf-ns-builders/strict'
 import { GraphPointer } from 'clownface'
-import { meta } from './lib/ns'
-import { getHierarchyPatterns } from './lib/patterns'
-import { anyPath } from './lib/firstLevel'
+import { meta } from './lib/ns.js'
+import { getHierarchyPatterns } from './lib/patterns.js'
+import { anyPath } from './lib/firstLevel.js'
 
 /**
  * Creates a query to find properties connecting the given hierarchy

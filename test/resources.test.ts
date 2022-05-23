@@ -2,10 +2,10 @@ import { gn, rdf, schema, sh } from '@tpluscode/rdf-ns-builders/strict'
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import clownface from 'clownface'
-import { meta } from '../lib/ns'
-import { children, example } from '../resources'
-import { client, streamClient } from './client'
-import { ex, parse, startFuseki, testData } from './support'
+import { meta } from '../lib/ns.js'
+import { children, example } from '../resources.js'
+import { client, streamClient } from './client.js'
+import { ex, parse, startFuseki, testData } from './support.js'
 
 describe('@zazuko/cube-hierarchy-query/resources', () => {
   before(startFuseki)

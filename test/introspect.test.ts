@@ -2,10 +2,10 @@ import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import clownface from 'clownface'
 import { gn, rdf, rdfs, schema, sh } from '@tpluscode/rdf-ns-builders/strict'
-import { meta } from '../lib/ns'
-import { properties, types } from '../introspect'
-import { client } from './client'
-import { ex, parse, startFuseki, testData } from './support'
+import { meta } from '../lib/ns.js'
+import { properties, types } from '../introspect.js'
+import { client } from './client.js'
+import { ex, parse, startFuseki, testData } from './support.js'
 
 describe('@zazuko/cube-hierarchy-query/introspect', () => {
   before(startFuseki)

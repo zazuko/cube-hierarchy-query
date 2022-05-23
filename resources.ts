@@ -4,10 +4,10 @@ import { Construct, DESCRIBE, SELECT } from '@tpluscode/sparql-builder'
 import { sh } from '@tpluscode/rdf-ns-builders/strict'
 import { toSparql } from 'clownface-shacl-path'
 import { StreamClient } from 'sparql-http-client'
-import fromStream from 'rdf-dataset-ext/fromStream'
+import fromStream from 'rdf-dataset-ext/fromStream.js'
 import rdf from '@rdfjs/data-model'
-import { getHierarchyPatterns } from './lib/patterns'
-import { requiredPath } from './lib/firstLevel'
+import { getHierarchyPatterns } from './lib/patterns.js'
+import { requiredPath } from './lib/firstLevel.js'
 
 /**
  * Creates a query to find an example resource found at the given level in hierarchy

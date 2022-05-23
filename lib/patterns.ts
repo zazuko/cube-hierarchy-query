@@ -3,9 +3,9 @@ import rdf from '@rdfjs/data-model'
 import { MultiPointer } from 'clownface'
 import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
 import { sh } from '@tpluscode/rdf-ns-builders/strict'
-import { meta } from './ns'
-import { requiredPath } from './firstLevel'
-import { parent } from './variable'
+import { meta } from './ns.js'
+import { requiredPath } from './firstLevel.js'
+import { parent } from './variable.js'
 
 interface GetHierarchyPatterns {
   restrictTypes?: boolean

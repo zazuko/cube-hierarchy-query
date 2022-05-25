@@ -90,3 +90,21 @@ const client = new StreamClient()
 
 const stream = await types(cantonLevel).execute(client.query)
 ```
+
+
+## Examples
+
+The [examples](./examples) directory contains snippets showing the usage on real cubes & hierarchies.
+
+To run call from `example` NPM script and pass the example file's path as argument. For example
+
+```
+yarn example ./examples/children.ts
+```
+
+To have the executed queries printed in the console, set a `DEBUG` environment variable:
+
+```diff
+-yarn example ./examples/children.ts
++DEBUG=SPARQL yarn example ./examples/children.ts
+```

@@ -1,4 +1,4 @@
-import ParsingClient from 'sparql-http-client/ParsingClient'
+import ParsingClient from 'sparql-http-client/ParsingClient.js'
 import StreamClient from 'sparql-http-client'
 
 export const client = new ParsingClient({

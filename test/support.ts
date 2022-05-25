@@ -1,15 +1,16 @@
 import { turtle, TurtleValue } from '@tpluscode/rdf-string'
 import { INSERT, sparql } from '@tpluscode/sparql-builder'
 import clownface from 'clownface'
-import { parsers } from '@rdfjs/formats-common'
+import formats from '@rdfjs/formats-common'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import namespace from '@rdfjs/namespace'
 import * as compose from 'docker-compose'
 import waitOn from 'wait-on'
 import { Context } from 'mocha'
-import { client } from './client'
+import { client } from './client.js'
 
+const { parsers } = formats
 export const ex = namespace('http://example.com/')
 
 const testDataGraph = $rdf.namedNode('urn:hierarchy:test')

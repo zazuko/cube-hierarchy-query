@@ -2,7 +2,7 @@ import { Term } from 'rdf-js'
 import { MultiPointer } from 'clownface'
 import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
 import { toSparql } from 'clownface-shacl-path'
-import { parent } from './variable'
+import { parent } from './variable.js'
 
 export function anyPath(subject: Term, path: MultiPointer, level: number): SparqlTemplateResult {
   const inverse = path.term?.termType === 'BlankNode'

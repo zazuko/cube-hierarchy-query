@@ -2,7 +2,7 @@ import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import clownface from 'clownface'
 import { gn, rdf, rdfs, schema, sh } from '@tpluscode/rdf-ns-builders/strict'
-import TermSet from '@rdfjs/term-set/TermSet.js' // temporary workaround of https://github.com/TypeStrong/ts-node/issues/1772
+import TermSet from '@rdfjs/term-set'
 import { meta } from '../lib/ns.js'
 import { properties, types } from '../introspect.js'
 import { client } from './client.js'

@@ -22,12 +22,10 @@ export function example(hierarchyLevel: GraphPointer): Construct | null {
     return null
   }
 
-  return DESCRIBE`?this`
-    .WHERE`
+  return DESCRIBE`?this`.WHERE`
       ${patterns}
       filter(isiri(?this))
-    `
-    .LIMIT(1)
+    `.LIMIT(1)
 }
 
 interface ChildrenOptions {
@@ -38,7 +36,10 @@ interface ChildrenOptions {
 
 interface Children {
   query: Construct
-  execute(client: StreamClient, rdf: DatasetCoreFactory): Promise<GraphPointer[]>
+  execute(
+    client: StreamClient,
+    rdf: DatasetCoreFactory
+  ): Promise<{ children: GraphPointer[]; parent: GraphPointer }>
 }
 
 /**
@@ -49,17 +50,21 @@ interface Children {
  * @param {GraphPointer} level it must be a pointer to the full hierarchy dataset
  * @param {Term} parent
  */
-export function children(level: GraphPointer, parent: Term, { limit = 1, offset = 0, orderBy = [] }: ChildrenOptions = {}): Children | null {
+export function children(
+  level: GraphPointer,
+  parent: Term,
+  { limit = 1, offset = 0, orderBy = [] }: ChildrenOptions = {},
+): Children | null {
   const patterns = getHierarchyPatterns(level, {
     firstLevel: requiredPath,
   })
+
   if (!patterns) {
     return null
   }
   const path = level.out(sh.path)
 
-  const selectChildTerms = SELECT.DISTINCT`?this`
-    .WHERE`
+  const selectChildTerms = SELECT.DISTINCT`?this`.WHERE`
       ${parent} ${toSparql(path)} ?this .
       ${patterns}
 
@@ -69,13 +74,12 @@ export function children(level: GraphPointer, parent: Term, { limit = 1, offset 
 
   const orderedQuery = orderBy.reduce((query, property, index) => {
     const orderVar = rdf.variable(`order${index}`)
-    return query
-      .WHERE`OPTIONAL { ?this ${property} ${orderVar} }`
-      .ORDER().BY(orderVar)
+    return query.WHERE`OPTIONAL { ?this ${property} ${orderVar} }`
+      .ORDER()
+      .BY(orderVar)
   }, selectChildTerms)
 
-  const query = DESCRIBE`${parent} ?this`
-    .WHERE`
+  const query = DESCRIBE`${parent} ?this`.WHERE`
       {
         ${orderedQuery}      
       }
@@ -91,12 +95,19 @@ export function children(level: GraphPointer, parent: Term, { limit = 1, offset 
 
       const inversePath = path.out(sh.inversePath).term
       if (inversePath) {
-        return parentNode.in(inversePath).toArray()
+        return {
+          parent: parentNode,
+          children: parentNode.in(inversePath).toArray(),
+        }
       }
 
-      return parentNode.out(path.term)
-        .filter(child => child.out().values.length > 0)
-        .toArray()
+      return {
+        parent: parentNode,
+        children: parentNode
+          .out(path.term)
+          .filter(child => child.out().values.length > 0)
+          .toArray(),
+      }
     },
   }
 }

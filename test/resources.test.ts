@@ -121,7 +121,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       const query = children(hierarchy.namedNode(ex.firstLevel), ex('South-America'), {
         limit: 1,
       })
-      const result = await query.execute(streamClient, $rdf)
+      const { children: result } = await query.execute(streamClient, $rdf)
 
       // then
       expect(result).to.have.length(1)
@@ -163,7 +163,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       const query = children(hierarchy.namedNode(ex.districtLevel), ex('Affoltern'), {
         limit: 1,
       })
-      const result = await query.execute(streamClient, $rdf)
+      const { children: result } = await query.execute(streamClient, $rdf)
 
       // then
       expect(result).to.have.length(1)
@@ -207,7 +207,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
         offset: 2,
         orderBy: [schema.position, schema.name],
       })
-      const [result] = await query.execute(streamClient, $rdf)
+      const { children: [result] } = await query.execute(streamClient, $rdf)
 
       // then
       expect(result.term).to.deep.eq(ex.Rifferswil)

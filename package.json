@@ -35,7 +35,6 @@
   "homepage": "https://github.com/zazuko/cube-hierarchy-query#readme",
   "dependencies": {
     "@rdfjs/data-model": "^2",
-    "@rdfjs/namespace": "^2",
     "@tpluscode/rdf-ns-builders": "^1.1.0",
     "@tpluscode/sparql-builder": "^0.3.19",
     "@types/clownface": "^1.5.0",
@@ -48,6 +47,7 @@
   "devDependencies": {
     "@changesets/cli": "^2.22.0",
     "@rdfjs/formats-common": "^2.2.0",
+    "@rdfjs/namespace": "^2",
     "@rdfjs/term-set": "^2.0.1",
     "@tpluscode/eslint-config": "^0.3.0",
     "@tpluscode/rdf-string": "^0.2.25",

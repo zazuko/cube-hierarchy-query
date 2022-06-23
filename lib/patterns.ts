@@ -3,7 +3,7 @@ import rdf from '@rdfjs/data-model'
 import { MultiPointer } from 'clownface'
 import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
 import { sh } from '@tpluscode/rdf-ns-builders/strict'
-import { meta } from './ns.js'
+import { meta } from '@zazuko/vocabulary-extras/builders'
 import { requiredPath } from './firstLevel.js'
 import { parent } from './variable.js'
 

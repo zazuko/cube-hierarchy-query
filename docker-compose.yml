@@ -2,7 +2,7 @@ version: "3"
 
 services:
   fuseki:
-    image: blankdots/jena-fuseki:fuseki3.13.1
+    image: ghcr.io/zazuko/fuseki-geosparql:v2.1
     ports:
       - 3030:3030
     environment:
@@ -11,4 +11,4 @@ services:
       - ENABLE_UPDATE=true
       - ENABLE_UPLOAD=true
     volumes:
-      - ./test/fuseki.ttl:/data/fuseki/config/config.ttl
+      - ./test/fuseki.ttl:/fuseki/config.ttl

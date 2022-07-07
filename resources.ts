@@ -1,7 +1,7 @@
 import { NamedNode, Term, DatasetCoreFactory } from 'rdf-js'
 import clownface, { GraphPointer } from 'clownface'
 import { Construct, DESCRIBE, SELECT } from '@tpluscode/sparql-builder'
-import { sh } from '@tpluscode/rdf-ns-builders/strict'
+import { sh } from '@tpluscode/rdf-ns-builders'
 import { toSparql } from 'clownface-shacl-path'
 import { StreamClient } from 'sparql-http-client'
 import fromStream from 'rdf-dataset-ext/fromStream.js'

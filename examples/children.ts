@@ -1,5 +1,5 @@
 import { Source } from 'rdf-cube-view-query'
-import namespace from '@rdfjs/namespace'
+import { meta } from '@zazuko/vocabulary-extras/builders'
 import StreamClient from 'sparql-http-client'
 import { MultiPointer } from 'clownface'
 import $rdf from 'rdf-ext'
@@ -20,8 +20,6 @@ const uniqueBy = <T>(iterable: T[], key: (item: T) => string): T[] => {
   return Object.values(res)
 }
 
-const meta = namespace('https://cube.link/meta/')
-
 type Dimension = {
   iri: string
   name: string
@@ -32,7 +30,7 @@ type Cube = any
 
 const listHierarchicalDimensions = (cube: Cube): Dimension[] => {
   // Find dimensions which have a hierarchy
-  const dimensions: MultiPointer = cube.ptr.any().has(meta.hasHierarchy)
+  const dimensions: MultiPointer = cube.ptr.any().has(meta.inHierarchy)
 
   return uniqueBy(
     dimensions.toArray().map(d => ({
@@ -40,7 +38,7 @@ const listHierarchicalDimensions = (cube: Cube): Dimension[] => {
         language: 'en',
       }).value,
       iri: d.out(sh.path).value,
-      hierarchies: d.out(meta.hasHierarchy).out(),
+      hierarchies: d.out(meta.inHierarchy).out(),
     })),
     x => x.iri,
   )
@@ -53,8 +51,8 @@ const listHierarchicalLevels = async (client: StreamClient, cube, dimensionIri: 
   const hierarchy = cube.ptr
     .any()
     .has(sh.path, $rdf.namedNode(dimensionIri))
-    .has(meta.hasHierarchy)
-    .out(meta.hasHierarchy)
+    .has(meta.inHierarchy)
+    .out(meta.inHierarchy)
 
   const roots = hierarchy.out(meta.hierarchyRoot).terms
 

@@ -5,7 +5,12 @@
     "@zazuko/cube-hierarchy-query": "0.0.0"
   },
   "changesets": [
+    "children-api-change",
+    "funny-candles-compete",
+    "long-suns-behave",
     "rude-balloons-float",
+    "twenty-doors-destroy",
+    "weak-feet-do",
     "wild-weeks-tickle"
   ]
 }

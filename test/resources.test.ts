@@ -1,4 +1,4 @@
-import { gn, rdf, schema, sh } from '@tpluscode/rdf-ns-builders/strict'
+import { gn, rdf, schema, sh } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import clownface from 'clownface'

@@ -1,5 +1,5 @@
 import { Construct, CONSTRUCT, SELECT } from '@tpluscode/sparql-builder'
-import { rdfs } from '@tpluscode/rdf-ns-builders/strict'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { GraphPointer } from 'clownface'
 import { meta } from '@zazuko/vocabulary-extras/builders'
 import { getHierarchyPatterns } from './lib/patterns.js'

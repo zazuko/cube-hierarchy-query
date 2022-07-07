@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import clownface from 'clownface'
-import { gn, rdf, rdfs, schema, sh } from '@tpluscode/rdf-ns-builders/strict'
+import { gn, rdf, rdfs, schema, sh } from '@tpluscode/rdf-ns-builders'
 import TermSet from '@rdfjs/term-set'
 import { meta } from '@zazuko/vocabulary-extras/builders'
 import { properties, types } from '../introspect.js'

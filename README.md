@@ -36,6 +36,8 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 The simplest usage is to retrieve entire hierarchy. It generates a `DESCRIBE` SPARQL query which will retrieve triples of
 the root resources and all resources on all hierarchy levels.
 
+* `sh:targetClass`, if present is added as a restriction on each applicable level
+
 ```typescript
 import { getHierarchy } from '@zazuko/cube-hierarchy-query'
 import $rdf from 'rdf-ext'

@@ -12,45 +12,98 @@ describe('@zazuko/cube-hierarchy-query', () => {
 
   before(insertGeoData)
 
-  describe('getHierarchy', async () => {
-    // given
-    const hierarchy = await parse`
-        <>
-          ${meta.hierarchyRoot} <Europe>, <North-America>, <South-America> ;
-          ${meta.nextInHierarchy} <countryLevel> ;
-        .
-        
-        <countryLevel>
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
-          ] ;
-          ${meta.nextInHierarchy} <cantonLevel> ;
-        .
-        
-        <cantonLevel> 
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
-          ] ;
-          ${meta.nextInHierarchy} <municipalityLevel> ;
-        .
-        
-        <municipalityLevel> 
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
-          ] ;
-          ${meta.nextInHierarchy} <districtLevel> ;
-        .
-        
-        <districtLevel> ${sh.path} ${schema.containsPlace} .
-      `
+  describe('getHierarchy', () => {
+    const countriesHierarchy = parse`
+      <>
+        ${meta.hierarchyRoot} <Europe>, <North-America>, <South-America> ;
+        ${meta.nextInHierarchy} <countryLevel> ;
+      .
+      
+      <countryLevel>
+        ${sh.path} [
+          ${sh.inversePath} ${schema.containedInPlace} ;
+        ] ;
+        ${meta.nextInHierarchy} <cantonLevel> ;
+      .
+      
+      <cantonLevel> 
+        ${sh.path} [
+          ${sh.inversePath} ${schema.containedInPlace} ;
+        ] ;
+        ${meta.nextInHierarchy} <municipalityLevel> ;
+      .
+      
+      <municipalityLevel> 
+        ${sh.path} [
+          ${sh.inversePath} ${schema.containedInPlace} ;
+        ] ;
+        ${meta.nextInHierarchy} <districtLevel> ;
+      .
+      
+      <districtLevel> ${sh.path} ${schema.containsPlace} .
+    `
 
-    // when
-    const hierarchyTree = await getHierarchy(hierarchy.namedNode(ex(''))).execute(streamClient, $rdf)
-    const json = hierarchyTree.map(toPlain)
+    it('loads all levels', async () => {
+      // given
+      const hierarchy = await countriesHierarchy
 
-    // then
-    expect(json).to.deep.eq([
-      {
+      // when
+      const hierarchyTree = await getHierarchy(hierarchy.namedNode(ex(''))).execute(streamClient, $rdf)
+      const plainTree = hierarchyTree.map(toPlain)
+
+      // then
+      expect(plainTree).to.containSubset([
+        {
+          resource: ex('Europe'),
+          nextInHierarchy: [
+            {
+              resource: ex('CH'),
+              nextInHierarchy: [
+                {
+                  resource: ex('ZH'),
+                  nextInHierarchy: [
+                    {
+                      resource: ex('Affoltern'),
+                      nextInHierarchy: [
+                        { resource: ex('Bonstetten') },
+                        { resource: ex('Rifferswil') },
+                        { resource: ex('Stallikon') },
+                        { resource: ex('Knonau') },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  resource: ex('BE'),
+                  nextInHierarchy: [
+                    {
+                      resource: ex('Biel-Bienne'),
+                      nextInHierarchy: [
+                        { resource: ex('Aegerten') },
+                        { resource: ex('Ligerz') },
+                        { resource: ex('Nidau') },
+                        { resource: ex('Port') },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ])
+    })
+
+    it('loads shallower paths', async () => {
+      // given
+      const hierarchy = await countriesHierarchy
+
+      // when
+      const hierarchyTree = await getHierarchy(hierarchy.namedNode(ex(''))).execute(streamClient, $rdf)
+      const plainTree = hierarchyTree.map(toPlain)
+
+      // then
+      expect(plainTree).to.containSubset([{
         resource: ex('North-America'),
         nextInHierarchy: [
           { resource: ex('US') },
@@ -63,50 +116,37 @@ describe('@zazuko/cube-hierarchy-query', () => {
           { resource: ex('AR') },
           { resource: ex('VE') },
         ],
-      },
-      {
-        resource: ex('Europe-America'),
+      }])
+    })
+
+    it('applies type filter', async () => {
+      // given
+      const hierarchy = await countriesHierarchy
+      hierarchy.namedNode(ex('countryLevel'))
+        .addOut(sh.targetClass, ex.Country)
+
+      // when
+      const hierarchyTree = await getHierarchy(hierarchy.namedNode(ex(''))).execute(streamClient, $rdf)
+      const plainTree = hierarchyTree.map(toPlain)
+
+      // then
+      expect(plainTree).not.to.containSubset([{
+        resource: ex('Europe'),
         nextInHierarchy: [
-          {
-            resource: ex('CH'),
-            nextInHierarchy: [
-              {
-                resource: ex('ZH'),
-                nextInHierarchy: [
-                  {
-                    resource: ex('Affoltern'),
-                    nextInHierarchy: [
-                      { resource: ex('Bonstetten') },
-                      { resource: ex('Rifferswil') },
-                      { resource: ex('Stallikon') },
-                      { resource: ex('Knonau') },
-                    ],
-                  },
-                ],
-              },
-              {
-                resource: ex('BE'),
-                nextInHierarchy: [
-                  {
-                    resource: ex('Biel-Bienne'),
-                    nextInHierarchy: [
-                      { resource: ex('Aegerten') },
-                      { resource: ex('Ligerz') },
-                      { resource: ex('Nidau') },
-                      { resource: ex('Port') },
-                    ],
-                  },
-                ],
-              },
-            ],
-          },
+          { resource: $rdf.namedNode('https://sws.geonames.org/798544') },
         ],
-      },
-    ])
+      }])
+    })
   })
 })
 
 function toPlain(node: HierarchyNode): Record<string, unknown> {
+  if (!node.nextInHierarchy.length) {
+    return {
+      resource: node.resource.term,
+    }
+  }
+
   return {
     resource: node.resource.term,
     nextInHierarchy: node.nextInHierarchy.map(toPlain),

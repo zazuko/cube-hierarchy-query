@@ -10,27 +10,22 @@ import { isGraphPointer } from 'is-graph-pointer'
 import { topDown } from './lib/patterns.js'
 
 export class HierarchyNode {
-  private readonly path: GraphPointer
-  private readonly nextLevel: GraphPointer
-
-  constructor(public readonly resource: GraphPointer, hierarchyLevel: GraphPointer) {
-    const path = hierarchyLevel.out(sh.path)
-    const nextLevel = hierarchyLevel.out(meta.nextInHierarchy)
-
-    if (!isGraphPointer(path)) {
-      throw new Error('sh:path must be single node')
-    }
-    if (!isGraphPointer(nextLevel)) {
-      throw new Error('meta:nextInHierarchy must be single node')
-    }
-
-    this.path = path
-    this.nextLevel = nextLevel
+  constructor(public readonly resource: GraphPointer, private hierarchyLevel: GraphPointer) {
   }
 
   get nextInHierarchy(): Array<HierarchyNode> {
-    return findNodes(this.resource, this.path)
-      .map(child => new HierarchyNode(child, this.nextLevel))
+    const nextLevel = this.hierarchyLevel.out(meta.nextInHierarchy)
+    if (!isGraphPointer(nextLevel)) {
+      return []
+    }
+
+    const path = nextLevel.out(sh.path)
+    if (!isGraphPointer(path)) {
+      throw new Error('sh:path must be single node')
+    }
+
+    return findNodes(this.resource, path)
+      .map(child => new HierarchyNode(child, nextLevel))
   }
 }
 

@@ -66,29 +66,50 @@ export function bottomUp(hierarchyLevel: MultiPointer, { restrictTypes = true, f
 }
 
 export function topDown(hierarchy: GraphPointer): SparqlTemplateResult {
-  const roots = hierarchy.out(meta.hierarchyRoot).terms
+  const roots = hierarchy.out(meta.hierarchyRoot).terms.map((term) => ({ root: term }))
 
-  let level = 1
-  let patterns = sparql``
+  let level = 0
   let currentLevel = hierarchy.out(meta.nextInHierarchy)
+  const levelPatterns: SparqlTemplateResult[] = []
+
   while (currentLevel) {
     const path = currentLevel.out(sh.path)
     if (!isGraphPointer(path)) {
       break
     }
 
-    const subject = rdf.variable(`level${level}`)
+    const subject = level === 0 ? rdf.variable('root') : rdf.variable(`level${level}`)
     const nextLevelSubject = rdf.variable(`level${level + 1}`)
-    const currentLevelPath = sparql`${subject} ${toSparql(path)} ${nextLevelSubject} .`
+    let currentLevelPatterns = sparql`${subject} ${toSparql(path)} ${nextLevelSubject} .`
 
-    patterns = sparql`${patterns}\n${currentLevelPath}`
+    const targetClass = currentLevel.out(sh.targetClass).term
+    if (targetClass) {
+      currentLevelPatterns = sparql`
+        ${currentLevelPatterns}
+        ${nextLevelSubject} a ${targetClass} .
+      `
+    }
+
+    levelPatterns.push(currentLevelPatterns)
 
     level++
     currentLevel = currentLevel.out(meta.nextInHierarchy)
   }
 
+  const patterns = levelPatterns.reduceRight((previous: SparqlTemplateResult | string, next) => {
+    if (previous === '') {
+      return next
+    }
+
+    return sparql`${next}
+      OPTIONAL {
+        ${previous}
+      }
+    `
+  }, '')
+
   return sparql`
-    ${VALUES({ root: roots })}
+    ${VALUES(...roots)}
     
     ${patterns}
   `

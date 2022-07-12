@@ -12,7 +12,6 @@ export const insertGeoData = () => insertTestData`
   <https://sws.geonames.org/2658434>
     a ${gn.A} ; ${gn.parentFeature} <Europe> .
 
-
   <https://sws.geonames.org/798544>
     a ${gn.A} ; ${schema.containedInPlace} <Europe> .
 

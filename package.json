@@ -53,6 +53,7 @@
     "@tpluscode/eslint-config": "^0.3.0",
     "@tpluscode/rdf-string": "^0.2.26",
     "@types/chai": "^4.3.0",
+    "@types/chai-subset": "^1",
     "@types/mocha": "^9.1.0",
     "@types/rdf-dataset-ext": "^1.0.2",
     "@types/rdfjs__formats-common": "^2.0.2",
@@ -62,6 +63,7 @@
     "argparse": "^2.0.1",
     "c8": "^7.11.0",
     "chai": "^4.3.6",
+    "chai-subset": "^1.6.0",
     "docker-compose": "^0.23.17",
     "eslint": "^8.13.0",
     "eslint-config-standard": "^16.0.3",
@@ -83,6 +85,7 @@
   },
   "mocha": {
     "loader": "ts-node/esm",
+    "require": "test/mocha-setup.cjs",
     "extension": [
       "ts"
     ]

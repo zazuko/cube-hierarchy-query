@@ -6,7 +6,7 @@ import { toSparql } from 'clownface-shacl-path'
 import { StreamClient } from 'sparql-http-client'
 import fromStream from 'rdf-dataset-ext/fromStream.js'
 import rdf from '@rdfjs/data-model'
-import { getHierarchyPatterns } from './lib/patterns.js'
+import { bottomUp } from './lib/patterns.js'
 import { requiredPath } from './lib/firstLevel.js'
 
 /**
@@ -15,7 +15,7 @@ import { requiredPath } from './lib/firstLevel.js'
  * @param {GraphPointer} hierarchyLevel it must be a pointer to the full hierarchy dataset
  */
 export function example(hierarchyLevel: GraphPointer): Construct | null {
-  const patterns = getHierarchyPatterns(hierarchyLevel, {
+  const patterns = bottomUp(hierarchyLevel, {
     firstLevel: requiredPath,
   })
   if (!patterns) {
@@ -55,7 +55,7 @@ export function children(
   parent: Term,
   { limit = 1, offset = 0, orderBy = [] }: ChildrenOptions = {},
 ): Children | null {
-  const patterns = getHierarchyPatterns(level, {
+  const patterns = bottomUp(level, {
     firstLevel: requiredPath,
   })
 

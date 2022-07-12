@@ -1,9 +1,12 @@
 import { Term } from 'rdf-js'
 import rdf from '@rdfjs/data-model'
-import { MultiPointer } from 'clownface'
+import { GraphPointer, MultiPointer } from 'clownface'
 import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { meta } from '@zazuko/vocabulary-extras/builders'
+import { VALUES } from '@tpluscode/sparql-builder/expressions'
+import { toSparql } from 'clownface-shacl-path'
+import { isGraphPointer } from 'is-graph-pointer'
 import { requiredPath } from './firstLevel.js'
 import { parent } from './variable.js'
 
@@ -12,7 +15,7 @@ interface GetHierarchyPatterns {
   firstLevel(subject: Term, path: MultiPointer, level: number): SparqlTemplateResult
 }
 
-export function getHierarchyPatterns(hierarchyLevel: MultiPointer, { restrictTypes = true, firstLevel }: GetHierarchyPatterns): SparqlTemplateResult {
+export function bottomUp(hierarchyLevel: MultiPointer, { restrictTypes = true, firstLevel }: GetHierarchyPatterns): SparqlTemplateResult {
   let currentLevel = hierarchyLevel
   let roots: Term[] = []
   let patterns = sparql``
@@ -60,4 +63,33 @@ export function getHierarchyPatterns(hierarchyLevel: MultiPointer, { restrictTyp
   `
 
   return patterns
+}
+
+export function topDown(hierarchy: GraphPointer): SparqlTemplateResult {
+  const roots = hierarchy.out(meta.hierarchyRoot).terms
+
+  let level = 1
+  let patterns = sparql``
+  let currentLevel = hierarchy.out(meta.nextInHierarchy)
+  while (currentLevel) {
+    const path = currentLevel.out(sh.path)
+    if (!isGraphPointer(path)) {
+      break
+    }
+
+    const subject = rdf.variable(`level${level}`)
+    const nextLevelSubject = rdf.variable(`level${level + 1}`)
+    const currentLevelPath = sparql`${subject} ${toSparql(path)} ${nextLevelSubject} .`
+
+    patterns = sparql`${patterns}\n${currentLevelPath}`
+
+    level++
+    currentLevel = currentLevel.out(meta.nextInHierarchy)
+  }
+
+  return sparql`
+    ${VALUES({ root: roots })}
+    
+    ${patterns}
+  `
 }

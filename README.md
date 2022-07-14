@@ -7,6 +7,7 @@ Use it to work with hierarchies defined using the [RDF Cube Schema](https://zazu
 The examples below assume `dataset` is an RDF/JS graph of Swiss cantons:
 
 ```turtle
+PREFIX schema: <http://schema.org/>
 PREFIX meta: <https://cube.link/meta/>
 PREFIX sh: <http://www.w3.org/ns/shacl#>
 
@@ -28,6 +29,35 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 <hierarchy/Switzerland/districts>
   schema:name "Districts" ;
   sh:path [ sh:inversePath schema:containedInPlace ] .
+```
+
+### Get entire hierarchy
+
+The simplest usage is to retrieve entire hierarchy. It generates a `DESCRIBE` SPARQL query which will retrieve triples of
+the root resources and all resources on all hierarchy levels.
+
+* `sh:targetClass`, if present is added as a restriction on each applicable level
+
+```typescript
+import { getHierarchy } from '@zazuko/cube-hierarchy-query'
+import $rdf from 'rdf-ext'
+import StreamClient from 'sparql-http-builder'
+
+let dataset: DatasetCore
+const client = new StreamClient()
+
+const myHierarchy = clownface({ dataset }).namedNode('my-hierarchy')
+const results = await getHierarchy(myHierarchy).execute(client, $rdf)
+
+results.forEach(print(0))
+
+function print(indent: number) {
+  return (hierarchyLevel: HierarchyNode) => {
+    const { value } = hierarchyLevel.resource
+    console.log(value.padStart(value.length + indent))
+    hierarchyLevel.nextInHierarchy.forEach(print(indent + 2))
+  }
+}
 ```
 
 ### Find resources
@@ -90,7 +120,6 @@ const client = new StreamClient()
 
 const stream = await types(cantonLevel).execute(client.query)
 ```
-
 
 ## Examples
 

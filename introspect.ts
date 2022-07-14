@@ -1,8 +1,8 @@
 import { Construct, CONSTRUCT, SELECT } from '@tpluscode/sparql-builder'
-import { rdfs } from '@tpluscode/rdf-ns-builders/strict'
+import { rdfs } from '@tpluscode/rdf-ns-builders'
 import { GraphPointer } from 'clownface'
-import { meta } from './lib/ns.js'
-import { getHierarchyPatterns } from './lib/patterns.js'
+import { meta } from '@zazuko/vocabulary-extras/builders'
+import { bottomUp } from './lib/patterns.js'
 import { anyPath } from './lib/firstLevel.js'
 
 /**
@@ -12,7 +12,7 @@ import { anyPath } from './lib/firstLevel.js'
  * @param {GraphPointer} hierarchyLevel it must be a pointer to the full hierarchy dataset
  */
 export function properties(hierarchyLevel: GraphPointer): Construct | null {
-  const patterns = getHierarchyPatterns(hierarchyLevel, {
+  const patterns = bottomUp(hierarchyLevel, {
     firstLevel: anyPath,
   })
   if (!patterns) {
@@ -40,7 +40,7 @@ export function properties(hierarchyLevel: GraphPointer): Construct | null {
  * @param {GraphPointer} hierarchyLevel it must be a pointer to the full hierarchy dataset
  */
 export function types(hierarchyLevel: GraphPointer): Construct | null {
-  const patterns = getHierarchyPatterns(hierarchyLevel, {
+  const patterns = bottomUp(hierarchyLevel, {
     restrictTypes: false,
     firstLevel: anyPath,
   })

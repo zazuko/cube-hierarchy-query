@@ -1,40 +1,18 @@
 import { expect } from 'chai'
 import $rdf from 'rdf-ext'
 import clownface from 'clownface'
-import { gn, rdf, rdfs, schema, sh } from '@tpluscode/rdf-ns-builders/strict'
+import { gn, rdf, rdfs, schema, sh } from '@tpluscode/rdf-ns-builders'
 import TermSet from '@rdfjs/term-set'
-import { meta } from '../lib/ns.js'
+import { meta } from '@zazuko/vocabulary-extras/builders'
 import { properties, types } from '../introspect.js'
 import { client } from './client.js'
-import { ex, parse, startFuseki, testData } from './support.js'
+import { ex, parse, startFuseki } from './support.js'
+import { insertGeoData } from './testData.js'
 
 describe('@zazuko/cube-hierarchy-query/introspect', () => {
   before(startFuseki)
 
-  before(async function () {
-    await testData`
-      <US> a ${ex.Country} ; ${schema.containedInPlace} <North-America> .
-      <BR> a ${ex.Country} ; ${schema.containedInPlace} <South-America> .
-
-      <CH> a ${ex.Country} ; ${schema.containedInPlace} <Europe> .
-
-      <https://sws.geonames.org/2658434>
-        a ${gn.A} ; ${gn.parentFeature} <Europe> .
-
-
-      <https://sws.geonames.org/798544>
-        a ${gn.A} ; ${schema.containedInPlace} <Europe> .
-
-      <ZH> a ${ex.Canton} ; ${schema.containedInPlace} <CH> .
-
-      <Affoltern> a ${ex.District} ;
-        ${schema.containedInPlace} <ZH> ;
-        ${schema.containsPlace} <Bonstetten> ;
-      .
-
-      <Bonstetten> a ${ex.Municipality} .
-    `
-  })
+  before(insertGeoData)
 
   describe('properties', () => {
     it('returns properties for first level', async () => {

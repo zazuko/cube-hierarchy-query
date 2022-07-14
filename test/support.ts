@@ -23,7 +23,7 @@ export async function startFuseki(this: Context) {
   })
 }
 
-export async function testData(strings: TemplateStringsArray, ...values: TurtleValue[]) {
+export async function insertTestData(strings: TemplateStringsArray, ...values: TurtleValue[]) {
   const query = sparql`
       DROP SILENT GRAPH ${testDataGraph} ;
 

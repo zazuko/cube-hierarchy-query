@@ -3,6 +3,7 @@
   "version": "1.0.0-pre.2",
   "description": "Facilitates querying RDF cube hierarchies",
   "type": "module",
+  "main": "index.js",
   "scripts": {
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore",
     "test": "c8 --all --reporter=lcov mocha",

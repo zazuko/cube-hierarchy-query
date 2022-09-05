@@ -15,7 +15,7 @@ describe('@zazuko/cube-hierarchy-query', () => {
   describe('getHierarchy', () => {
     const countriesHierarchy = parse`
       <>
-        ${meta.hierarchyRoot} <Europe>, <North-America>, <South-America> ;
+        ${meta.hierarchyRoot} <Europe>, <North-America>, <South-America>, <Asia> ;
         ${meta.nextInHierarchy} <countryLevel> ;
       .
       
@@ -90,6 +90,9 @@ describe('@zazuko/cube-hierarchy-query', () => {
               ],
             },
           ],
+        },
+        {
+          resource: ex('Asia'),
         },
       ])
     })

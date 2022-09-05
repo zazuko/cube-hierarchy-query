@@ -38,11 +38,9 @@ export interface Hierarchy {
 }
 
 export function getHierarchy(hierarchy: GraphPointer): Hierarchy {
-  const query = DESCRIBE`*`
-    .WHERE`
-      ${topDown(hierarchy)}
-    `
-
+  const { described, where } = topDown(hierarchy)
+  const query = DESCRIBE`${described}`
+    .WHERE`${where}`
   return {
     query,
     async execute(client, $rdf) {

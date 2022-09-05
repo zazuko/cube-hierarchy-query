@@ -1,5 +1,11 @@
 # @zazuko/cube-hierarchy-query
 
+## 1.0.1
+
+### Patch Changes
+
+- a00f28a: Roots without children were not returned by the `getHierarchy` function
+
 ## 1.0.0
 
 ### Major Changes

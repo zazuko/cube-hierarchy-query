@@ -48,7 +48,46 @@ describe('@zazuko/cube-hierarchy-query', () => {
       const hierarchy = await countriesHierarchy
 
       // when
-      const hierarchyTree = await getHierarchy(hierarchy.namedNode(ex(''))).execute(streamClient, $rdf)
+      const hierarchyQuery = getHierarchy(hierarchy.namedNode(ex('')))
+      const hierarchyTree = await hierarchyQuery.execute(streamClient, $rdf)
+      expect(hierarchyQuery.query.build()).to.equal(`PREFIX schema: <http://schema.org/>
+
+DESCRIBE <http://example.com/Europe>
+<http://example.com/North-America>
+<http://example.com/South-America>
+<http://example.com/Asia> ?level1
+?level2
+?level3
+?level4
+
+WHERE {
+
+    VALUES ( ?root )
+{
+( <http://example.com/Europe> )
+( <http://example.com/North-America> )
+( <http://example.com/South-America> )
+( <http://example.com/Asia> )
+}
+    
+    ?root ^schema:containedInPlace ?level1 .
+      OPTIONAL {
+        ?level1 ^schema:containedInPlace ?level2 .
+      OPTIONAL {
+        ?level2 ^schema:containedInPlace ?level3 .
+      OPTIONAL {
+        ?level3 schema:containsPlace ?level4 .
+      }
+    
+      }
+    
+      }
+    
+  
+}
+
+`)
+
       const plainTree = hierarchyTree.map(toPlain)
 
       // then

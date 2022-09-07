@@ -86,9 +86,8 @@ export function topDown(hierarchy: GraphPointer): {
     const subject = level === 0 ? rdf.variable('root') : rdf.variable(`level${level}`)
     const nextLevelSubject = rdf.variable(`level${level + 1}`)
     let currentLevelPatterns = sparql`${subject} ${toSparql(path)} ${nextLevelSubject} .`
-    if (level !== 0) {
-      levels.push(subject)
-    }
+
+    levels.push(nextLevelSubject)
 
     const targetClass = currentLevel.out(sh.targetClass).term
     if (targetClass) {

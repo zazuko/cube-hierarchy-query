@@ -6,7 +6,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint . --ext .ts --quiet --ignore-path .gitignore",
-    "test": "c8 --all --reporter=lcov mocha --ignore \"**/*.d.ts\" --require chai-snapshot-matcher",
+    "test": "c8 --all --reporter=lcov mocha --ignore \"**/*.d.ts\"",
     "prepare": "husky install",
     "prepack": "tsc",
     "release": "changeset publish",

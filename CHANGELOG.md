@@ -1,5 +1,11 @@
 # @zazuko/cube-hierarchy-query
 
+## 1.0.2
+
+### Patch Changes
+
+- 6542eae: As a regeression from #12, some data was still missing when fetching entire hierarchy
+
 ## 1.0.1
 
 ### Patch Changes

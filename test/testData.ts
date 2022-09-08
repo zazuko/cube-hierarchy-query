@@ -2,6 +2,12 @@ import { gn, schema } from '@tpluscode/rdf-ns-builders'
 import { ex, insertTestData } from './support.js'
 
 export const insertGeoData = () => insertTestData`
+  <North-America> ${schema.name} "North America".
+  <BR> ${schema.name} "Brasil".
+  <CH> ${schema.name} "Switzerland".
+  <Europe> ${schema.name} "Europe".
+  <ZH> ${schema.name} "Kanton Zürich".
+
   <US> a ${ex.Country} ; ${schema.containedInPlace} <North-America> .
   <BR> a ${ex.Country} ; ${schema.containedInPlace} <South-America> .
   <AR> a ${ex.Country} ; ${schema.containedInPlace} <South-America> .

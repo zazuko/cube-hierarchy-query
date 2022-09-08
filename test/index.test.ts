@@ -59,20 +59,23 @@ describe('@zazuko/cube-hierarchy-query', () => {
       expect(plainTree).to.containSubset([
         {
           resource: ex('Europe'),
+          name: 'Europe',
           nextInHierarchy: [
             {
               resource: ex('CH'),
+              name: 'Switzerland',
               nextInHierarchy: [
                 {
                   resource: ex('ZH'),
+                  name: 'Kanton Zürich',
                   nextInHierarchy: [
                     {
                       resource: ex('Affoltern'),
                       nextInHierarchy: [
-                        { resource: ex('Bonstetten') },
-                        { resource: ex('Rifferswil') },
-                        { resource: ex('Stallikon') },
-                        { resource: ex('Knonau') },
+                        { resource: ex('Bonstetten'), name: 'Bonstetten' },
+                        { resource: ex('Rifferswil'), name: 'Rifferswil' },
+                        { resource: ex('Stallikon'), name: 'Stallikon' },
+                        { resource: ex('Knonau'), name: 'Knonau' },
                       ],
                     },
                   ],
@@ -151,11 +154,13 @@ function toPlain(node: HierarchyNode): Record<string, unknown> {
   if (!node.nextInHierarchy.length) {
     return {
       resource: node.resource.term,
+      name: node.resource.out(schema.name).value,
     }
   }
 
   return {
     resource: node.resource.term,
     nextInHierarchy: node.nextInHierarchy.map(toPlain),
+    name: node.resource.out(schema.name).value,
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@zazuko/cube-hierarchy-query",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Facilitates querying RDF cube hierarchies",
   "type": "module",
   "main": "index.js",

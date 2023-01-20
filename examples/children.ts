@@ -47,7 +47,7 @@ const listHierarchicalDimensions = (cube: Cube): Dimension[] => {
 /**
  * List all the hierarchical levels for cube & dimension
  */
-const listHierarchicalLevels = async (client: StreamClient, cube, dimensionIri: string) => {
+const listHierarchicalLevels = async (client: StreamClient, cube, dimensionIri: string, language?: string) => {
   const hierarchy = cube.ptr
     .any()
     .has(sh.path, $rdf.namedNode(dimensionIri))
@@ -84,10 +84,10 @@ const listHierarchicalLevels = async (client: StreamClient, cube, dimensionIri: 
         res[level.value].children[parent.value] || []
 
       res[level.value].children[parent.value].push({
-        name: parent.out(schema.name).value,
+        name: parent.out(schema.name, language ? { language } : undefined).value,
         iri: parent.value,
         children: childrenPointers.map(child => ({
-          name: child.out(schema.name).value,
+          name: child.out(schema.name, language ? { language } : undefined).value,
           value: child.value,
         })),
       })
@@ -110,6 +110,8 @@ const main = async () => {
   parser.add_argument('--cube', { required: true })
   parser.add_argument('--dimensionIri', { required: false })
   parser.add_argument('--endpoint', { required: false, default: 'https://int.lindas.admin.ch/query' })
+  parser.add_argument('--language')
+
   const args = parser.parse_args()
 
   const endpoint = {
@@ -123,7 +125,7 @@ const main = async () => {
   await cube.fetchShape()
 
   if (args.mode === 'list-values') {
-    const values = await listHierarchicalLevels(client, cube, args.dimensionIri)
+    const values = await listHierarchicalLevels(client, cube, args.dimensionIri, args.language)
     console.log(values)
   } else if (args.mode === 'list-dimensions') {
     const dims = await listHierarchicalDimensions(cube)

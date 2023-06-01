@@ -1,6 +1,6 @@
 import { NamedNode, Term, DatasetCoreFactory } from 'rdf-js'
 import clownface, { GraphPointer } from 'clownface'
-import { Construct, DESCRIBE, SELECT } from '@tpluscode/sparql-builder'
+import { Describe, DESCRIBE, SELECT } from '@tpluscode/sparql-builder'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { toSparql } from 'clownface-shacl-path'
 import { StreamClient } from 'sparql-http-client'
@@ -14,7 +14,7 @@ import { requiredPath } from './lib/firstLevel.js'
  *
  * @param {GraphPointer} hierarchyLevel it must be a pointer to the full hierarchy dataset
  */
-export function example(hierarchyLevel: GraphPointer): Construct | null {
+export function example(hierarchyLevel: GraphPointer): Describe | null {
   const patterns = bottomUp(hierarchyLevel, {
     firstLevel: requiredPath,
   })
@@ -35,7 +35,7 @@ interface ChildrenOptions {
 }
 
 interface Children {
-  query: Construct
+  query: Describe
   execute(
     client: StreamClient,
     rdf: DatasetCoreFactory

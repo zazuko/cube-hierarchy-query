@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`lib/hierarchyShape fromHierarchy does not add excludes when properties are inverse 1`] = `
+"@prefix cube: <https://cube.link/> .
+@prefix meta: <https://cube.link/meta/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <http://schema.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix s2q: <https://hypermedia.app/shape-to-query#> .
+
+_:b17 a sh:NodeShape ;
+	sh:targetNode <http://example.com/Europe> ;
+	sh:rule [
+		rdf:type s2q:SPORule ;
+	] ;
+	sh:property [
+		sh:path [
+			sh:inversePath schema:containedInPlace ;
+		] ;
+		sh:node [
+			sh:rule [
+				rdf:type s2q:SPORule ;
+			] ;
+			sh:property [
+				sh:path [
+					sh:inversePath schema:containedInPlace ;
+				] ;
+			] ;
+		] ;
+	] .
+
+"
+`;
+
+exports[`lib/hierarchyShape fromHierarchy excludes property from SPO rule 1`] = `
+"@prefix cube: <https://cube.link/> .
+@prefix meta: <https://cube.link/meta/> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix schema: <http://schema.org/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix s2q: <https://hypermedia.app/shape-to-query#> .
+
+_:b1 a sh:NodeShape ;
+	sh:targetNode <http://example.com/Europe> ;
+	sh:rule [
+		rdf:type s2q:SPORule ;
+		s2q:predicateFilter [
+			<http://datashapes.org/sparql#not> (
+				[
+					<http://datashapes.org/sparql#eq> (
+						sh:this
+						schema:containsPlace
+					) ;
+				]
+			) ;
+		] ;
+	] ;
+	sh:property [
+		sh:path schema:containsPlace ;
+		sh:node [
+			sh:rule [
+				rdf:type s2q:SPORule ;
+				s2q:predicateFilter [
+					<http://datashapes.org/sparql#not> (
+						[
+							<http://datashapes.org/sparql#eq> (
+								sh:this
+								schema:containsPlace
+							) ;
+						]
+					) ;
+				] ;
+			] ;
+			sh:property [
+				sh:path schema:containsPlace ;
+			] ;
+		] ;
+	] .
+
+"
+`;

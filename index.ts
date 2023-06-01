@@ -1,13 +1,14 @@
 import { DatasetCoreFactory } from 'rdf-js'
 import clownface, { GraphPointer } from 'clownface'
-import { Construct, DESCRIBE } from '@tpluscode/sparql-builder'
+import { Construct } from '@tpluscode/sparql-builder'
 import type StreamClient from 'sparql-http-client'
 import fromStream from 'rdf-dataset-ext/fromStream.js'
 import { meta } from '@zazuko/vocabulary-extras/builders'
 import { findNodes } from 'clownface-shacl-path'
 import { sh } from '@tpluscode/rdf-ns-builders'
 import { isGraphPointer } from 'is-graph-pointer'
-import { topDown } from './lib/patterns.js'
+import { constructQuery } from '@hydrofoil/shape-to-query'
+import { fromHierarchy } from './lib/hierarchyShape.js'
 
 export class HierarchyNode {
   constructor(public readonly resource: GraphPointer, private hierarchyLevel: GraphPointer) {
@@ -38,9 +39,7 @@ export interface Hierarchy {
 }
 
 export function getHierarchy(hierarchy: GraphPointer): Hierarchy {
-  const { described, where } = topDown(hierarchy)
-  const query = DESCRIBE`${described}`
-    .WHERE`${where}`
+  const query = constructQuery(fromHierarchy(hierarchy))
   return {
     query,
     async execute(client, $rdf) {

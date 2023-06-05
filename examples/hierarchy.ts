@@ -48,7 +48,6 @@ const main = async () => {
   performance.measure('getHierarchy', 'begin getHierarchy', 'end getHierarchy')
 
   results.forEach(print(0))
-  performance.measure('print', 'begin print', 'end print')
 
   log('perf')(performance.getEntriesByType('measure').map(measure => `${measure.name}: ${measure.duration} ms`).join('\n'))
 }

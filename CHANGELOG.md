@@ -1,5 +1,16 @@
 # @zazuko/cube-hierarchy-query
 
+## 2.0.0
+
+### Major Changes
+
+- 573ccd8: The `query` object returned by `children` and `example` functions is now typed as `Describe` which has a slightly different signature from `Construct` which was returned previously. (note that the actual query has not changed)
+- 573ccd8: The `getHierarchy` exported by the main module now generates a `CONSTRUCT` query which should yield a great improvement in performance in some cases (closes #17)
+
+### Patch Changes
+
+- 573ccd8: Removed dependency on `chai-snapshot-matcher` which should have been dev-only
+
 ## 1.0.2
 
 ### Patch Changes

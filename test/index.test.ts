@@ -1,13 +1,16 @@
 import { meta } from '@zazuko/vocabulary-extras/builders'
 import { schema, sh } from '@tpluscode/rdf-ns-builders'
-import { expect } from 'chai'
+import chai, { expect } from 'chai'
 import $rdf from 'rdf-ext'
+import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot'
 import { getHierarchy, HierarchyNode } from '../index.js'
 import { ex, parse, startFuseki } from './support.js'
 import { insertGeoData } from './testData.js'
 import { streamClient } from './client.js'
 
 describe('@zazuko/cube-hierarchy-query', () => {
+  chai.use(jestSnapshotPlugin())
+
   before(startFuseki)
 
   before(insertGeoData)
@@ -51,7 +54,7 @@ describe('@zazuko/cube-hierarchy-query', () => {
       const hierarchyQuery = getHierarchy(hierarchy.namedNode(ex('')))
       const hierarchyTree = await hierarchyQuery.execute(streamClient, $rdf)
 
-      expect(hierarchyQuery.query.build()).to.matchSnapshot(this)
+      expect(hierarchyQuery.query.build()).to.matchSnapshot()
 
       const plainTree = hierarchyTree.map(toPlain)
 

@@ -1,16 +1,21 @@
 import { turtle, TurtleValue } from '@tpluscode/rdf-string'
 import { INSERT, sparql } from '@tpluscode/sparql-builder'
-import clownface from 'clownface'
-import formats from '@rdfjs/formats-common'
+import clownface, { GraphPointer } from 'clownface'
+import formats from '@rdfjs-elements/formats-pretty'
+import rdfExt from 'rdf-dataset-ext'
 import toStream from 'string-to-stream'
 import $rdf from 'rdf-ext'
 import namespace from '@rdfjs/namespace'
 import * as compose from 'docker-compose'
 import waitOn from 'wait-on'
 import { Context } from 'mocha'
+import getStream from 'get-stream'
+import prefixes from '@zazuko/prefixes'
+import { prefixes as extraPrefixes } from '@zazuko/vocabulary-extras'
+import { s2q } from '@hydrofoil/shape-to-query'
 import { client } from './client.js'
 
-const { parsers } = formats
+const { parsers, serializers } = formats
 export const ex = namespace('http://example.com/')
 
 const testDataGraph = $rdf.namedNode('urn:hierarchy:test')
@@ -41,6 +46,24 @@ export async function parse(strings: TemplateStringsArray, ...values: TurtleValu
   const graph = turtle(strings, ...values).toString({
     base: 'http://example.com/',
   })
-  const dataset = await $rdf.dataset().import(parsers.import('text/turtle', toStream(graph))!)
+  const dataset = await $rdf.dataset().import(<any>parsers.import('text/turtle', <any>toStream(graph))!)
   return clownface({ dataset })
+}
+
+export async function serialize(ptr: GraphPointer): Promise<string> {
+  const { rdf, sh, schema } = prefixes
+  const { cube, meta } = extraPrefixes
+
+  const dataset = $rdf.traverser(() => true).match(<any>ptr)
+
+  return getStream(serializers.import('text/turtle', rdfExt.toStream(dataset), {
+    prefixes: {
+      cube,
+      meta,
+      sh,
+      schema,
+      rdf,
+      s2q: s2q().value,
+    },
+  }) as any)
 }

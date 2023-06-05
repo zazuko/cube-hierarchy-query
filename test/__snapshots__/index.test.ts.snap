@@ -1,2 +1,129 @@
-exports["@zazuko/cube-hierarchy-query getHierarchy loads all levels"] = "PREFIX schema: <http://schema.org/>\n\nDESCRIBE <http://example.com/Europe>\n<http://example.com/North-America>\n<http://example.com/South-America>\n<http://example.com/Asia> ?level1\n?level2\n?level3\n?level4\n\nWHERE {\n\n    VALUES ( ?root )\n{\n( <http://example.com/Europe> )\n( <http://example.com/North-America> )\n( <http://example.com/South-America> )\n( <http://example.com/Asia> )\n}\n    \n    ?root ^schema:containedInPlace ?level1 .\n      OPTIONAL {\n        ?level1 ^schema:containedInPlace ?level2 .\n      OPTIONAL {\n        ?level2 ^schema:containedInPlace ?level3 .\n      OPTIONAL {\n        ?level3 schema:containsPlace ?level4 .\n      }\n    \n      }\n    \n      }\n    \n  \n}\n\n";
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`@zazuko/cube-hierarchy-query getHierarchy loads all levels 1`] = `
+"PREFIX schema: <http://schema.org/>
+
+CONSTRUCT { 
+    ?resource2 schema:containedInPlace ?resource1 .
+?resource3 schema:containedInPlace ?resource2 .
+?resource4 schema:containedInPlace ?resource3 .
+?resource4 schema:containsPlace ?resource5 .
+?resource5 ?resource6 ?resource7 .
+?resource4 ?resource8 ?resource9 .
+?resource3 ?resource10 ?resource11 .
+?resource2 ?resource12 ?resource13 .
+?resource1 ?resource14 ?resource15 .
+   }
+
+WHERE {
+
+    
+
+VALUES ( ?resource1 )
+{
+( <http://example.com/Europe> )
+( <http://example.com/North-America> )
+( <http://example.com/South-America> )
+( <http://example.com/Asia> )
+}
+{ 
+    { 
+    
+?resource2 schema:containedInPlace ?resource1 .
+ 
+  } UNION {
+      
+            
+?resource2 schema:containedInPlace ?resource1 .
+
+            
+
+{ 
+    { 
+    
+?resource3 schema:containedInPlace ?resource2 .
+ 
+  } UNION {
+      
+            
+?resource3 schema:containedInPlace ?resource2 .
+
+            
+
+{ 
+    { 
+    
+?resource4 schema:containedInPlace ?resource3 .
+ 
+  } UNION {
+      
+            
+?resource4 schema:containedInPlace ?resource3 .
+
+            
+
+{ 
+    { 
+    
+?resource4 schema:containsPlace ?resource5 .
+ 
+  } UNION {
+      
+            
+?resource4 schema:containsPlace ?resource5 .
+
+            
+
+
+        ?resource5 ?resource6 ?resource7 .
+        
+        
+      
+
+          
+    } 
+  } UNION {
+      
+        ?resource4 ?resource8 ?resource9 .
+        
+
+FILTER((!((?resource8 = schema:containsPlace))))
+        
+      
+    }
+
+          
+    } 
+  } UNION {
+      
+        ?resource3 ?resource10 ?resource11 .
+        
+        
+      
+    }
+
+          
+    } 
+  } UNION {
+      
+        ?resource2 ?resource12 ?resource13 .
+        
+        
+      
+    }
+
+          
+    } 
+  } UNION {
+      
+        ?resource1 ?resource14 ?resource15 .
+        
+        
+      
+    }
+
+
+  
+}
+"
+`;

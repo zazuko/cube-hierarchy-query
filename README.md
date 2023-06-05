@@ -33,8 +33,7 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 
 ### Get entire hierarchy
 
-The simplest usage is to retrieve entire hierarchy. It generates a `DESCRIBE` SPARQL query which will retrieve triples of
-the root resources and all resources on all hierarchy levels.
+The simplest usage is to retrieve entire hierarchy. It generates a `CONSTRUCT` SPARQL query which will retrieve triples of the root resources and all resources on all hierarchy levels.
 
 * `sh:targetClass`, if present is added as a restriction on each applicable level
 

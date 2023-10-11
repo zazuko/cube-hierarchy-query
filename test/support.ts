@@ -1,11 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { turtle, TurtleValue } from '@tpluscode/rdf-string'
 import { INSERT, sparql } from '@tpluscode/sparql-builder'
-import clownface, { GraphPointer } from 'clownface'
+import type { GraphPointer } from 'clownface'
 import formats from '@rdfjs-elements/formats-pretty'
 import rdfExt from 'rdf-dataset-ext'
 import toStream from 'string-to-stream'
-import $rdf from 'rdf-ext'
-import namespace from '@rdfjs/namespace'
+import $rdf from '@zazuko/env'
 import * as compose from 'docker-compose'
 import waitOn from 'wait-on'
 import { Context } from 'mocha'
@@ -16,7 +16,7 @@ import { s2q } from '@hydrofoil/shape-to-query'
 import { client } from './client.js'
 
 const { parsers, serializers } = formats
-export const ex = namespace('http://example.com/')
+export const ex = $rdf.namespace('http://example.com/')
 
 const testDataGraph = $rdf.namedNode('urn:hierarchy:test')
 
@@ -47,7 +47,7 @@ export async function parse(strings: TemplateStringsArray, ...values: TurtleValu
     base: 'http://example.com/',
   })
   const dataset = await $rdf.dataset().import(<any>parsers.import('text/turtle', <any>toStream(graph))!)
-  return clownface({ dataset })
+  return $rdf.clownface({ dataset })
 }
 
 export async function serialize(ptr: GraphPointer): Promise<string> {

@@ -1,11 +1,11 @@
-import clownface, { GraphPointer } from 'clownface'
-import { rdf, sh, dashSparql } from '@tpluscode/rdf-ns-builders'
-import { meta } from '@zazuko/vocabulary-extras/builders'
+import rdf from '@zazuko/env'
+import type { GraphPointer } from 'clownface'
+import { meta } from '@zazuko/vocabulary-extras-builders'
 import { isGraphPointer, isNamedNode } from 'is-graph-pointer'
 import { s2q } from '@hydrofoil/shape-to-query'
 
 export function fromHierarchy(hierarchy: GraphPointer) {
-  const clone = clownface({
+  const clone = rdf.clownface({
     dataset: hierarchy.dataset.match(),
     term: hierarchy.term,
   })
@@ -13,17 +13,17 @@ export function fromHierarchy(hierarchy: GraphPointer) {
   const rootShape = clone.blankNode()
 
   rootShape
-    .addOut(rdf.type, sh.NodeShape)
-    .addOut(sh.targetNode, hierarchy.out(meta.hierarchyRoot))
-    .addOut(sh.rule, rule => {
-      rule.addOut(rdf.type, s2q.SPORule)
+    .addOut(rdf.ns.rdf.type, rdf.ns.sh.NodeShape)
+    .addOut(rdf.ns.sh.targetNode, hierarchy.out(meta.hierarchyRoot))
+    .addOut(rdf.ns.sh.rule, rule => {
+      rule.addOut(rdf.ns.rdf.type, s2q.SPORule)
     })
 
   let currentLevel = hierarchy.out(meta.nextInHierarchy)
   let currentLevelShape: GraphPointer = rootShape
 
   while (currentLevel) {
-    const path = currentLevel.out(sh.path)
+    const path = currentLevel.out(rdf.ns.sh.path)
     if (!isGraphPointer(path)) {
       break
     }
@@ -31,23 +31,23 @@ export function fromHierarchy(hierarchy: GraphPointer) {
     let nextLevelShape : GraphPointer
 
     currentLevelShape
-      .addOut(sh.property, constraint => {
-        constraint.addOut(sh.path, path)
-          .addOut(sh.node, nodeConstraint => {
-            nodeConstraint.addOut(sh.rule, rule => {
-              rule.addOut(rdf.type, s2q.SPORule)
+      .addOut(rdf.ns.sh.property, constraint => {
+        constraint.addOut(rdf.ns.sh.path, path)
+          .addOut(rdf.ns.sh.node, nodeConstraint => {
+            nodeConstraint.addOut(rdf.ns.sh.rule, rule => {
+              rule.addOut(rdf.ns.rdf.type, s2q.SPORule)
             })
 
             nextLevelShape = nodeConstraint
           })
 
-        const targetClass = currentLevel.out(sh.targetClass).term
+        const targetClass = currentLevel.out(rdf.ns.sh.targetClass).term
         if (targetClass) {
-          constraint.addOut(sh.class, targetClass)
+          constraint.addOut(rdf.ns.sh.class, targetClass)
         }
 
         if (isNamedNode(path)) {
-          currentLevelShape.out(sh.rule)
+          currentLevelShape.out(rdf.ns.sh.rule)
             .addOut(s2q.predicateFilter, propertyFilter(path))
         }
       })
@@ -61,9 +61,9 @@ export function fromHierarchy(hierarchy: GraphPointer) {
 
 function propertyFilter(path: GraphPointer) {
   return (ptr: GraphPointer) => {
-    ptr.addList(dashSparql.not, [
-      ptr.blankNode().addList(dashSparql.eq, [
-        sh.this,
+    ptr.addList(rdf.ns.dashSparql.not, [
+      ptr.blankNode().addList(rdf.ns.dashSparql.eq, [
+        rdf.ns.sh.this,
         path,
       ]),
     ])

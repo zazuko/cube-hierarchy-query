@@ -1,9 +1,8 @@
 import { Term } from 'rdf-js'
-import rdf from '@rdfjs/data-model'
-import { MultiPointer } from 'clownface'
+import rdf from '@zazuko/env'
+import type { MultiPointer } from 'clownface'
 import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
-import { sh } from '@tpluscode/rdf-ns-builders'
-import { meta } from '@zazuko/vocabulary-extras/builders'
+import { meta } from '@zazuko/vocabulary-extras-builders'
 import { requiredPath } from './firstLevel.js'
 import { parent } from './variable.js'
 
@@ -28,7 +27,7 @@ export function bottomUp(hierarchyLevel: MultiPointer, { restrictTypes = true, f
 
     let nextPattern: SparqlTemplateResult
     try {
-      const path = currentLevel.out(sh.path)
+      const path = currentLevel.out(rdf.ns.sh.path)
       if (level === 1) {
         nextPattern = firstLevel(subject, path, level)
       } else {
@@ -38,7 +37,7 @@ export function bottomUp(hierarchyLevel: MultiPointer, { restrictTypes = true, f
       break
     }
 
-    const targetClass = currentLevel.out(sh.targetClass).term
+    const targetClass = currentLevel.out(rdf.ns.sh.targetClass).term
     if (targetClass && restrictTypes) {
       nextPattern = sparql`${nextPattern}\n${subject} a ${targetClass} .`
     }

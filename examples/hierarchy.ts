@@ -2,12 +2,11 @@ import 'anylogger-debug'
 import log from 'anylogger'
 import StreamClient from 'sparql-http-client'
 import argparse from 'argparse'
-import $rdf from 'rdf-ext'
+import $rdf from '@zazuko/env'
 import { Source } from 'rdf-cube-view-query'
-import { sh } from '@tpluscode/rdf-ns-builders'
-import { meta } from '@zazuko/vocabulary-extras/builders'
+import { meta } from '@zazuko/vocabulary-extras-builders'
 import { isGraphPointer } from 'is-graph-pointer'
-import { getHierarchy, HierarchyNode } from '..'
+import { getHierarchy, HierarchyNode } from '../index.js'
 
 const main = async () => {
   const parser = new argparse.ArgumentParser()
@@ -32,7 +31,7 @@ const main = async () => {
   performance.measure('fetch shape', 'begin fetch shape', 'end fetch shape')
   const hierarchy = cube.ptr
     .any()
-    .has(sh.path, $rdf.namedNode(args.dimensionIri))
+    .has($rdf.ns.sh.path, $rdf.namedNode(args.dimensionIri))
     .has(meta.inHierarchy)
     .out(meta.inHierarchy)
     .toArray()

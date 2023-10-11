@@ -5,31 +5,43 @@ on: [push, pull_request]
 jobs:
   mocha:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18"
+          - "20"
     steps:
-     - uses: actions/checkout@v2
-     - uses: actions/setup-node@v2
+     - uses: actions/checkout@v3
+     - uses: actions/setup-node@v3
        with:
-         node-version: 16
-     - run: yarn
-     - run: yarn test
+         node-version: ${{ matrix.node }}
+     - run: npm ci
+     - run: npm test
      - uses: codecov/codecov-action@v2
 
   lint:
     runs-on: ubuntu-latest
     steps:
-     - uses: actions/checkout@v2
-     - uses: actions/setup-node@v2
+     - uses: actions/checkout@v3
+     - uses: actions/setup-node@v3
        with:
-         node-version: 16
-     - run: yarn
-     - run: yarn lint
+         node-version: 20
+     - run: npm ci
+     - run: npm run lint
 
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18"
+          - "20"
     steps:
      - uses: actions/checkout@v2
      - uses: actions/setup-node@v2
        with:
-         node-version: 16
-     - run: yarn
-     - run: yarn tsc --noEmit
+         node-version: ${{ matrix.node }}
+     - run: npm ci
+     - run: npx tsc --noEmit

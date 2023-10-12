@@ -1,42 +1,42 @@
-import { gn, schema } from '@tpluscode/rdf-ns-builders'
+import $rdf from '@zazuko/env'
 import { ex, insertTestData } from './support.js'
 
 export const insertGeoData = () => insertTestData`
-  <North-America> ${schema.name} "North America".
-  <BR> ${schema.name} "Brasil".
-  <CH> ${schema.name} "Switzerland".
-  <Europe> ${schema.name} "Europe".
-  <ZH> ${schema.name} "Kanton Zürich".
+  <North-America> ${$rdf.ns.schema.name} "North America".
+  <BR> ${$rdf.ns.schema.name} "Brasil".
+  <CH> ${$rdf.ns.schema.name} "Switzerland".
+  <Europe> ${$rdf.ns.schema.name} "Europe".
+  <ZH> ${$rdf.ns.schema.name} "Kanton Zürich".
 
-  <US> a ${ex.Country} ; ${schema.containedInPlace} <North-America> .
-  <BR> a ${ex.Country} ; ${schema.containedInPlace} <South-America> .
-  <AR> a ${ex.Country} ; ${schema.containedInPlace} <South-America> .
-  <VE> a ${ex.Country} ; ${schema.containedInPlace} <South-America> .
+  <US> a ${ex.Country} ; ${$rdf.ns.schema.containedInPlace} <North-America> .
+  <BR> a ${ex.Country} ; ${$rdf.ns.schema.containedInPlace} <South-America> .
+  <AR> a ${ex.Country} ; ${$rdf.ns.schema.containedInPlace} <South-America> .
+  <VE> a ${ex.Country} ; ${$rdf.ns.schema.containedInPlace} <South-America> .
 
-  <CH> a ${ex.Country} ; ${schema.containedInPlace} <Europe> .
+  <CH> a ${ex.Country} ; ${$rdf.ns.schema.containedInPlace} <Europe> .
 
   <https://sws.geonames.org/2658434>
-    a ${gn.A} ; ${gn.parentFeature} <Europe> .
+    a ${$rdf.ns.gn.A} ; ${$rdf.ns.gn.parentFeature} <Europe> .
 
   <https://sws.geonames.org/798544>
-    a ${gn.A} ; ${schema.containedInPlace} <Europe> .
+    a ${$rdf.ns.gn.A} ; ${$rdf.ns.schema.containedInPlace} <Europe> .
 
-  <ZH> a ${ex.Canton} ; ${schema.containedInPlace} <CH> .
+  <ZH> a ${ex.Canton} ; ${$rdf.ns.schema.containedInPlace} <CH> .
 
   <Affoltern> a ${ex.District} ;
-    ${schema.containedInPlace} <ZH> ;
-    ${schema.containsPlace} <Bonstetten>, <Rifferswil>, <Stallikon>, <Knonau> ;
+    ${$rdf.ns.schema.containedInPlace} <ZH> ;
+    ${$rdf.ns.schema.containsPlace} <Bonstetten>, <Rifferswil>, <Stallikon>, <Knonau> ;
   .
 
-  <Bonstetten> a ${ex.Municipality} ; ${schema.name} "Bonstetten" .
-  <Rifferswil> a ${ex.Municipality} ; ${schema.name} "Rifferswil" .
-  <Stallikon> a ${ex.Municipality} ; ${schema.name} "Stallikon" .
-  <Knonau> a ${ex.Municipality} ; ${schema.name} "Knonau" .
+  <Bonstetten> a ${ex.Municipality} ; ${$rdf.ns.schema.name} "Bonstetten" .
+  <Rifferswil> a ${ex.Municipality} ; ${$rdf.ns.schema.name} "Rifferswil" .
+  <Stallikon> a ${ex.Municipality} ; ${$rdf.ns.schema.name} "Stallikon" .
+  <Knonau> a ${ex.Municipality} ; ${$rdf.ns.schema.name} "Knonau" .
   
-  <BE> a ${ex.Canton} ; ${schema.containedInPlace} <CH> .
+  <BE> a ${ex.Canton} ; ${$rdf.ns.schema.containedInPlace} <CH> .
   
   <Biel-Bienne> a ${ex.District} ;
-    ${schema.containedInPlace} <BE> ;
-    ${schema.containsPlace} <Aegerten>, <Ligerz>, <Nidau>, <Port> ;
+    ${$rdf.ns.schema.containedInPlace} <BE> ;
+    ${$rdf.ns.schema.containsPlace} <Aegerten>, <Ligerz>, <Nidau>, <Port> ;
   .
 `

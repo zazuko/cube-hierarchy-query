@@ -1,7 +1,6 @@
-import { meta } from '@zazuko/vocabulary-extras/builders'
-import { schema, sh } from '@tpluscode/rdf-ns-builders'
+import { meta } from '@zazuko/vocabulary-extras-builders'
 import chai, { expect } from 'chai'
-import $rdf from 'rdf-ext'
+import $rdf from '@zazuko/env'
 import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot'
 import { getHierarchy, HierarchyNode } from '../index.js'
 import { ex, parse, startFuseki } from './support.js'
@@ -23,27 +22,27 @@ describe('@zazuko/cube-hierarchy-query', () => {
       .
       
       <countryLevel>
-        ${sh.path} [
-          ${sh.inversePath} ${schema.containedInPlace} ;
+        ${$rdf.ns.sh.path} [
+          ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
         ] ;
         ${meta.nextInHierarchy} <cantonLevel> ;
       .
       
       <cantonLevel> 
-        ${sh.path} [
-          ${sh.inversePath} ${schema.containedInPlace} ;
+        ${$rdf.ns.sh.path} [
+          ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
         ] ;
         ${meta.nextInHierarchy} <municipalityLevel> ;
       .
       
       <municipalityLevel> 
-        ${sh.path} [
-          ${sh.inversePath} ${schema.containedInPlace} ;
+        ${$rdf.ns.sh.path} [
+          ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
         ] ;
         ${meta.nextInHierarchy} <districtLevel> ;
       .
       
-      <districtLevel> ${sh.path} ${schema.containsPlace} .
+      <districtLevel> ${$rdf.ns.sh.path} ${$rdf.ns.schema.containsPlace} .
     `
 
     it('loads all levels', async function () {
@@ -136,7 +135,7 @@ describe('@zazuko/cube-hierarchy-query', () => {
       // given
       const hierarchy = await countriesHierarchy
       hierarchy.namedNode(ex('countryLevel'))
-        .addOut(sh.targetClass, ex.Country)
+        .addOut($rdf.ns.sh.targetClass, ex.Country)
 
       // when
       const hierarchyTree = await getHierarchy(hierarchy.namedNode(ex(''))).execute(streamClient, $rdf)
@@ -157,13 +156,13 @@ function toPlain(node: HierarchyNode): Record<string, unknown> {
   if (!node.nextInHierarchy.length) {
     return {
       resource: node.resource.term,
-      name: node.resource.out(schema.name).value,
+      name: node.resource.out($rdf.ns.schema.name).value,
     }
   }
 
   return {
     resource: node.resource.term,
     nextInHierarchy: node.nextInHierarchy.map(toPlain),
-    name: node.resource.out(schema.name).value,
+    name: node.resource.out($rdf.ns.schema.name).value,
   }
 }

@@ -1,5 +1,5 @@
 import { Term } from 'rdf-js'
-import { MultiPointer } from 'clownface'
+import type { MultiPointer } from 'clownface'
 import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
 import { toSparql } from 'clownface-shacl-path'
 import { parent } from './variable.js'

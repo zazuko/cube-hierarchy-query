@@ -39,7 +39,7 @@ The simplest usage is to retrieve entire hierarchy. It generates a `CONSTRUCT` S
 
 ```typescript
 import { getHierarchy } from '@zazuko/cube-hierarchy-query'
-import $rdf from 'rdf-ext'
+import $rdf from '@zazuko/env'
 import StreamClient from 'sparql-http-builder'
 
 let dataset: DatasetCore
@@ -66,7 +66,7 @@ finds children of that resource
 
 ```typescript
 import { children } from '@zazuko/cube-hierarchy-query/resources'
-import $rdf from 'rdf-ext'
+import $rdf from '@zazuko/env'
 import StreamClient from 'sparql-http-builder'
 import { schema } from '@tpluscode/rdf-ns-builders'
 

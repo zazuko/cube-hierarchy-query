@@ -1,5 +1,5 @@
-import { meta } from '@zazuko/vocabulary-extras/builders'
-import { schema, sh } from '@tpluscode/rdf-ns-builders'
+import { meta } from '@zazuko/vocabulary-extras-builders'
+import $rdf from '@zazuko/env'
 import chai, { expect } from 'chai'
 import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot'
 import { fromHierarchy } from '../../lib/hierarchyShape.js'
@@ -17,10 +17,10 @@ describe('lib/hierarchyShape', () => {
           ${meta.nextInHierarchy} <firstLevel> ;
         .
         <firstLevel> 
-          ${sh.path} ${schema.containsPlace} ;
+          ${$rdf.ns.sh.path} ${$rdf.ns.schema.containsPlace} ;
           ${meta.nextInHierarchy} <secondLevel> .
         <secondLevel> 
-          ${sh.path} ${schema.containsPlace} .
+          ${$rdf.ns.sh.path} ${$rdf.ns.schema.containsPlace} .
       `
 
       // when
@@ -40,10 +40,10 @@ describe('lib/hierarchyShape', () => {
           ${meta.nextInHierarchy} <firstLevel> ;
         .
         <firstLevel> 
-          ${sh.path} [ ${sh.inversePath} ${schema.containedInPlace} ] ;
+          ${$rdf.ns.sh.path} [ ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ] ;
           ${meta.nextInHierarchy} <secondLevel> .
         <secondLevel> 
-          ${sh.path} [ ${sh.inversePath} ${schema.containedInPlace} ] ; .
+          ${$rdf.ns.sh.path} [ ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ] ; .
       `
 
       // when

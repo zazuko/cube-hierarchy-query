@@ -1,7 +1,7 @@
 import { Construct, CONSTRUCT, SELECT } from '@tpluscode/sparql-builder'
-import { rdfs } from '@tpluscode/rdf-ns-builders'
-import { GraphPointer } from 'clownface'
-import { meta } from '@zazuko/vocabulary-extras/builders'
+import type { GraphPointer } from 'clownface'
+import { meta } from '@zazuko/vocabulary-extras-builders'
+import rdf from '@zazuko/env'
 import { bottomUp } from './lib/patterns.js'
 import { anyPath } from './lib/firstLevel.js'
 
@@ -19,7 +19,7 @@ export function properties(hierarchyLevel: GraphPointer): Construct | null {
     return null
   }
 
-  return CONSTRUCT`?property ${rdfs.label} ?label`
+  return CONSTRUCT`?property ${rdf.ns.rdfs.label} ?label`
     .WHERE`
       {
         ${SELECT.DISTINCT`?property`.WHERE`
@@ -28,7 +28,7 @@ export function properties(hierarchyLevel: GraphPointer): Construct | null {
         `}
       }
 
-      optional { ?property ${rdfs.label} ?rdfsLabel }
+      optional { ?property ${rdf.ns.rdfs.label} ?rdfsLabel }
 
       bind(if(bound(?rdfsLabel), concat(?rdfsLabel, " (", str(?property), ")"), str(?property)) as ?label)
     `
@@ -48,7 +48,7 @@ export function types(hierarchyLevel: GraphPointer): Construct | null {
     return null
   }
 
-  return CONSTRUCT`?type ${rdfs.label} ?label`
+  return CONSTRUCT`?type ${rdf.ns.rdfs.label} ?label`
     .WHERE`
       {
         ${SELECT.DISTINCT`?type`.WHERE`
@@ -61,7 +61,7 @@ export function types(hierarchyLevel: GraphPointer): Construct | null {
         `}
       }
 
-      optional { ?type ${rdfs.label} ?rdfsLabel }
+      optional { ?type ${rdf.ns.rdfs.label} ?rdfsLabel }
 
       bind(if(bound(?rdfsLabel), concat(?rdfsLabel, " (", str(?type), ")"), str(?type)) as ?label)
     `

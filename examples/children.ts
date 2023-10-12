@@ -1,15 +1,14 @@
 import { Source } from 'rdf-cube-view-query'
-import { meta } from '@zazuko/vocabulary-extras/builders'
+import { meta } from '@zazuko/vocabulary-extras-builders'
 import StreamClient from 'sparql-http-client'
 import { MultiPointer } from 'clownface'
-import $rdf from 'rdf-ext'
-import { schema, sh } from '@tpluscode/rdf-ns-builders'
+import $rdf from '@zazuko/env'
 import argparse from 'argparse'
-import { children } from '../resources'
+import { children } from '../resources.js'
 
 const queryOptions = {
   limit: 100,
-  orderBy: [schema.name],
+  orderBy: [$rdf.ns.schema.name],
 }
 
 const uniqueBy = <T>(iterable: T[], key: (item: T) => string): T[] => {
@@ -26,6 +25,7 @@ type Dimension = {
 };
 
 // TODO Replace by a Cube type from rdf-cube-view-query
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Cube = any
 
 const listHierarchicalDimensions = (cube: Cube): Dimension[] => {
@@ -34,10 +34,10 @@ const listHierarchicalDimensions = (cube: Cube): Dimension[] => {
 
   return uniqueBy(
     dimensions.toArray().map(d => ({
-      name: d.out(schema.name, {
+      name: d.out($rdf.ns.schema.name, {
         language: 'en',
       }).value,
-      iri: d.out(sh.path).value,
+      iri: d.out($rdf.ns.sh.path).value,
       hierarchies: d.out(meta.inHierarchy).out(),
     })),
     x => x.iri,
@@ -50,7 +50,7 @@ const listHierarchicalDimensions = (cube: Cube): Dimension[] => {
 const listHierarchicalLevels = async (client: StreamClient, cube, dimensionIri: string, language?: string) => {
   const hierarchy = cube.ptr
     .any()
-    .has(sh.path, $rdf.namedNode(dimensionIri))
+    .has($rdf.ns.sh.path, $rdf.namedNode(dimensionIri))
     .has(meta.inHierarchy)
     .out(meta.inHierarchy)
 
@@ -66,7 +66,7 @@ const listHierarchicalLevels = async (client: StreamClient, cube, dimensionIri: 
       .shift()
     // Drill down into subsequent hierarchy levels by expanding the first child every time
     while (level) {
-      const levelName = level.out(schema.name).value
+      const levelName = level.out($rdf.ns.schema.name).value
 
       const { parent, children: childrenPointers } = await children(
         level,
@@ -84,10 +84,10 @@ const listHierarchicalLevels = async (client: StreamClient, cube, dimensionIri: 
         res[level.value].children[parent.value] || []
 
       res[level.value].children[parent.value].push({
-        name: parent.out(schema.name, language ? { language } : undefined).value,
+        name: parent.out($rdf.ns.schema.name, language ? { language } : undefined).value,
         iri: parent.value,
         children: childrenPointers.map(child => ({
-          name: child.out(schema.name, language ? { language } : undefined).value,
+          name: child.out($rdf.ns.schema.name, language ? { language } : undefined).value,
           value: child.value,
         })),
       })

@@ -1,11 +1,10 @@
 import { NamedNode, Term, DatasetCoreFactory } from 'rdf-js'
-import clownface, { GraphPointer } from 'clownface'
+import type { GraphPointer } from 'clownface'
 import { Describe, DESCRIBE, SELECT } from '@tpluscode/sparql-builder'
-import { sh } from '@tpluscode/rdf-ns-builders'
 import { toSparql } from 'clownface-shacl-path'
 import { StreamClient } from 'sparql-http-client'
 import fromStream from 'rdf-dataset-ext/fromStream.js'
-import rdf from '@rdfjs/data-model'
+import rdf from '@zazuko/env'
 import { bottomUp } from './lib/patterns.js'
 import { requiredPath } from './lib/firstLevel.js'
 
@@ -62,7 +61,7 @@ export function children(
   if (!patterns) {
     return null
   }
-  const path = level.out(sh.path)
+  const path = level.out(rdf.ns.sh.path)
 
   const selectChildTerms = SELECT.DISTINCT`?this`.WHERE`
       ${parent} ${toSparql(path)} ?this .
@@ -91,9 +90,9 @@ export function children(
       const stream = await query.execute(client.query)
       const dataset = await fromStream($rdf.dataset(), stream)
 
-      const parentNode = clownface({ dataset, term: parent })
+      const parentNode = rdf.clownface({ dataset, term: parent })
 
-      const inversePath = path.out(sh.inversePath).term
+      const inversePath = path.out(rdf.ns.sh.inversePath).term
       if (inversePath) {
         return {
           parent: parentNode,

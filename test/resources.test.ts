@@ -1,8 +1,6 @@
-import { gn, rdf, schema, sh } from '@tpluscode/rdf-ns-builders'
 import { expect } from 'chai'
-import $rdf from 'rdf-ext'
-import clownface from 'clownface'
-import { meta } from '@zazuko/vocabulary-extras/builders'
+import $rdf from '@zazuko/env'
+import { meta } from '@zazuko/vocabulary-extras-builders'
 import { children, example } from '../resources.js'
 import { client, streamClient } from './client.js'
 import { ex, parse, startFuseki } from './support.js'
@@ -21,7 +19,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
           ${meta.hierarchyRoot} <Europe> ;
           ${meta.nextInHierarchy} <firstLevel> ;
         .
-        <firstLevel> ${sh.path} [] .
+        <firstLevel> ${$rdf.ns.sh.path} [] .
       `
 
       // when
@@ -38,8 +36,8 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
           ${meta.hierarchyRoot} <Europe> ;
           ${meta.nextInHierarchy} <firstLevel> ;
         .
-        <firstLevel> ${sh.path} [
-          ${sh.inversePath} ${schema.containedInPlace}
+        <firstLevel> ${$rdf.ns.sh.path} [
+          ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace}
         ] .
       `
 
@@ -48,7 +46,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
-      const country = clownface({ dataset }).has(rdf.type)
+      const country = $rdf.clownface({ dataset }).has($rdf.ns.rdf.type)
       expect(country.term).to.deep.eq(ex.CH)
     })
 
@@ -60,10 +58,10 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
           ${meta.nextInHierarchy} <firstLevel> ;
         .
         <firstLevel>
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace}
+          ${$rdf.ns.sh.path} [
+            ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace}
           ] ;
-          ${sh.targetClass} ${gn.A} ;
+          ${$rdf.ns.sh.targetClass} ${$rdf.ns.gn.A} ;
         .
       `
 
@@ -72,7 +70,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       const dataset = $rdf.dataset(await query.execute(client.query))
 
       // then
-      const country = clownface({ dataset }).has(rdf.type)
+      const country = $rdf.clownface({ dataset }).has($rdf.ns.rdf.type)
       expect(country.term).to.deep.eq($rdf.namedNode('https://sws.geonames.org/798544'))
     })
   })
@@ -85,8 +83,8 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
           ${meta.hierarchyRoot} <South-America> ;
           ${meta.nextInHierarchy} <firstLevel> ;
         .
-        <firstLevel> ${sh.path} [
-          ${sh.inversePath} ${schema.containedInPlace} ;
+        <firstLevel> ${$rdf.ns.sh.path} [
+          ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
         ] .
       `
 
@@ -109,27 +107,27 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
         .
         
         <countryLevel>
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
+          ${$rdf.ns.sh.path} [
+            ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
           ] ;
           ${meta.nextInHierarchy} <cantonLevel> ;
         .
         
         <cantonLevel> 
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
+          ${$rdf.ns.sh.path} [
+            ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
           ] ;
           ${meta.nextInHierarchy} <municipalityLevel> ;
         .
         
         <municipalityLevel> 
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
+          ${$rdf.ns.sh.path} [
+            ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
           ] ;
           ${meta.nextInHierarchy} <districtLevel> ;
         .
         
-        <districtLevel> ${sh.path} ${schema.containsPlace} .
+        <districtLevel> ${$rdf.ns.sh.path} ${$rdf.ns.schema.containsPlace} .
       `
 
       // when
@@ -151,34 +149,34 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
         .
         
         <countryLevel>
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
+          ${$rdf.ns.sh.path} [
+            ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
           ] ;
           ${meta.nextInHierarchy} <cantonLevel> ;
         .
         
         <cantonLevel> 
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
+          ${$rdf.ns.sh.path} [
+            ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
           ] ;
           ${meta.nextInHierarchy} <municipalityLevel> ;
         .
         
         <municipalityLevel> 
-          ${sh.path} [
-            ${sh.inversePath} ${schema.containedInPlace} ;
+          ${$rdf.ns.sh.path} [
+            ${$rdf.ns.sh.inversePath} ${$rdf.ns.schema.containedInPlace} ;
           ] ;
           ${meta.nextInHierarchy} <districtLevel> ;
         .
         
-        <districtLevel> ${sh.path} ${schema.containsPlace} .
+        <districtLevel> ${$rdf.ns.sh.path} ${$rdf.ns.schema.containsPlace} .
       `
 
       // when
       const query = children(hierarchy.namedNode(ex.districtLevel), ex('Affoltern'), {
         limit: 1,
         offset: 2,
-        orderBy: [schema.position, schema.name],
+        orderBy: [$rdf.ns.schema.position, $rdf.ns.schema.name],
       })
       const { children: [result] } = await query.execute(streamClient, $rdf)
 

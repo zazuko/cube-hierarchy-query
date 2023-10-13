@@ -59,6 +59,24 @@ function print(indent: number) {
 }
 ```
 
+By default, all properties of every hierarchy level are retrieved. That may prove very verbose and in such
+cases, the caller can explicitly request specific properties to be returned by passing a second argument to
+the `getHierarchy` function.
+
+```ts
+import rdf from '@zazuko/env'
+
+getHierarchy(myHierarchy, {
+  properties: [
+    rdf.ns.schema.identifier,
+    [rdf.ns.schema.name, { language: 'de' }]  
+  ]
+})
+```
+
+The above will fetch only `schema:identifier` and `schema:name` of all levels, additionally filtering 
+names only in German.
+
 ### Find resources
 
 Given a hierarchy level ([`GraphPointer`](https://zazuko.github.io/clownface/#/api?id=clownface)) and the URI of a resource from that hierarchy,

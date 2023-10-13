@@ -1,4 +1,4 @@
-import { DatasetCoreFactory } from 'rdf-js'
+import { DatasetCoreFactory, NamedNode } from 'rdf-js'
 import rdf from '@zazuko/env'
 import type { GraphPointer } from 'clownface'
 import { Construct } from '@tpluscode/sparql-builder'
@@ -8,7 +8,7 @@ import { meta } from '@zazuko/vocabulary-extras-builders'
 import { findNodes } from 'clownface-shacl-path'
 import { isGraphPointer } from 'is-graph-pointer'
 import { constructQuery } from '@hydrofoil/shape-to-query'
-import { fromHierarchy } from './lib/hierarchyShape.js'
+import { fromHierarchy, PropertyWithConstraints } from './lib/hierarchyShape.js'
 
 export class HierarchyNode {
   constructor(public readonly resource: GraphPointer, private hierarchyLevel: GraphPointer) {
@@ -38,8 +38,19 @@ export interface Hierarchy {
   ): Promise<Array<HierarchyNode>>
 }
 
-export function getHierarchy(hierarchy: GraphPointer): Hierarchy {
-  const query = constructQuery(fromHierarchy(hierarchy))
+interface GetHierarchyOptions {
+  properties?: Array<NamedNode | PropertyWithConstraints>
+}
+
+export function getHierarchy(hierarchy: GraphPointer, { properties = [] }: GetHierarchyOptions = {}): Hierarchy {
+  const constraints = {
+    properties: properties.reduce<PropertyWithConstraints[]>((previousValue, currentValue) => {
+      const next: PropertyWithConstraints = 'termType' in currentValue ? [currentValue, {}] : currentValue
+      return [...previousValue, next]
+    }, []),
+  }
+
+  const query = constructQuery(fromHierarchy(hierarchy, constraints))
   return {
     query,
     async execute(client, $rdf) {

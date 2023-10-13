@@ -2,11 +2,19 @@ import $rdf from '@zazuko/env'
 import { ex, insertTestData } from './support.js'
 
 export const insertGeoData = () => insertTestData`
-  <North-America> ${$rdf.ns.schema.name} "North America".
-  <BR> ${$rdf.ns.schema.name} "Brasil".
-  <CH> ${$rdf.ns.schema.name} "Switzerland".
-  <Europe> ${$rdf.ns.schema.name} "Europe".
-  <ZH> ${$rdf.ns.schema.name} "Kanton Zürich".
+  <North-America> a ${$rdf.ns.schema.Continent} .
+
+  <North-America> ${$rdf.ns.schema.name} "North America"@en, "Nordamerika"@de.
+  <BR> ${$rdf.ns.schema.name} "Brasil"@en, "Brasilien"@de.
+  <CH> ${$rdf.ns.schema.name} "Switzerland"@en, "Die Schweiz"@de.
+  <Europe> ${$rdf.ns.schema.name} "Europe"@en, "Europa"@de.
+  <ZH> ${$rdf.ns.schema.name} "Canton Zurich"@en, "Kanton Zürich"@de.
+  
+  <North-America> ${$rdf.ns.schema.identifier} "NA" .
+  <BR> ${$rdf.ns.schema.identifier} "BR" .
+  <CH> ${$rdf.ns.schema.identifier} "CH" .
+  <Europe> ${$rdf.ns.schema.identifier} "EU" .
+  <ZH> ${$rdf.ns.schema.identifier} "ZH" .
 
   <US> a ${ex.Country} ; ${$rdf.ns.schema.containedInPlace} <North-America> .
   <BR> a ${ex.Country} ; ${$rdf.ns.schema.containedInPlace} <South-America> .

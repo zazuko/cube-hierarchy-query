@@ -61,15 +61,15 @@ describe('@zazuko/cube-hierarchy-query', () => {
       expect(plainTree).to.containSubset([
         {
           resource: ex('Europe'),
-          name: 'Europe',
+          name: ['Europe', 'Europa'],
           nextInHierarchy: [
             {
               resource: ex('CH'),
-              name: 'Switzerland',
+              name: ['Switzerland'],
               nextInHierarchy: [
                 {
                   resource: ex('ZH'),
-                  name: 'Kanton Zürich',
+                  name: ['Kanton Zürich'],
                   nextInHierarchy: [
                     {
                       resource: ex('Affoltern'),
@@ -149,6 +149,27 @@ describe('@zazuko/cube-hierarchy-query', () => {
         ],
       }])
     })
+
+    it('loads only chosen properties, including language filter', async () => {
+      // given
+      const hierarchy = await countriesHierarchy
+
+      // when
+      const hierarchyTree = await getHierarchy(hierarchy.namedNode(ex('')), {
+        properties: [
+          $rdf.ns.schema.identifier,
+          [$rdf.ns.schema.name, { language: 'de' }],
+        ],
+      }).execute(streamClient, $rdf)
+
+      // then
+      const plainTree = hierarchyTree.map(toPlain)
+      expect(plainTree).to.containSubset([{
+        resource: ex('North-America'),
+        types: [$rdf.ns.schema.Continent],
+        name: ['Nordamerika'],
+      }])
+    })
   })
 })
 
@@ -163,6 +184,7 @@ function toPlain(node: HierarchyNode): Record<string, unknown> {
   return {
     resource: node.resource.term,
     nextInHierarchy: node.nextInHierarchy.map(toPlain),
-    name: node.resource.out($rdf.ns.schema.name).value,
+    types: node.resource.out($rdf.ns.rdf.type).terms,
+    name: node.resource.out($rdf.ns.schema.name).values,
   }
 }

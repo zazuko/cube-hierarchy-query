@@ -1,5 +1,16 @@
 # @zazuko/cube-hierarchy-query
 
+## 2.1.0
+
+### Minor Changes
+
+- 24997e4: Use `@zazuko/env` instead of `rdf-ext`
+- d002da4: Add an optional argument to `getHierarchy` to list exact properties to retrieve for all levels (closes #22)
+
+### Patch Changes
+
+- 24997e4: Update dependencies to ESM
+
 ## 2.0.0
 
 ### Major Changes

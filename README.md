@@ -19,14 +19,14 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
 <hierarchy/Switzerland/cantons>
   schema:name "Canton" ;
   sh:path schema:containsPlace ;
-  meta:nextInHierarchy <hierarchy/Switzerland/municipalities> .
+  meta:nextInHierarchy <hierarchy/Switzerland/districts> .
   
-<hierarchy/Switzerland/municipalities>
+<hierarchy/Switzerland/districts>
   schema:name "Municipalities" ;
   sh:path [ sh:inversePath schema:containedInPlace ] ;
-  meta:nextInHierarchy <hierarchy/Switzerland/districts> .
+  meta:nextInHierarchy <hierarchy/Switzerland/municipalities> .
     
-<hierarchy/Switzerland/districts>
+<hierarchy/Switzerland/municipalities>
   schema:name "Districts" ;
   sh:path [ sh:inversePath schema:containedInPlace ] .
 ```

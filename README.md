@@ -22,12 +22,12 @@ PREFIX sh: <http://www.w3.org/ns/shacl#>
   meta:nextInHierarchy <hierarchy/Switzerland/districts> .
   
 <hierarchy/Switzerland/districts>
-  schema:name "Municipalities" ;
+  schema:name "Districts" ;
   sh:path [ sh:inversePath schema:containedInPlace ] ;
   meta:nextInHierarchy <hierarchy/Switzerland/municipalities> .
     
 <hierarchy/Switzerland/municipalities>
-  schema:name "Districts" ;
+  schema:name "Municipalities" ;
   sh:path [ sh:inversePath schema:containedInPlace ] .
 ```
 

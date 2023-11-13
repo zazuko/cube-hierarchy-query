@@ -7,6 +7,7 @@ import { Source } from 'rdf-cube-view-query'
 import { meta } from '@zazuko/vocabulary-extras-builders'
 import { isGraphPointer } from 'is-graph-pointer'
 import { getHierarchy, HierarchyNode } from '../index.js'
+import { PropertyShapeEx } from './lib/PropertyShape.js'
 
 const main = async () => {
   const parser = new argparse.ArgumentParser()
@@ -42,7 +43,15 @@ const main = async () => {
   }
 
   performance.mark('begin getHierarchy')
-  const results = await getHierarchy(hierarchy).execute(client, $rdf)
+  const results = await getHierarchy(hierarchy, {
+    properties: [
+      $rdf.ns.schema.identifier,
+      [$rdf.ns.schema.name, { language: 'de' }],
+    ],
+    shapeToQueryOptions: {
+      PropertyShape: PropertyShapeEx,
+    },
+  }).execute(client, $rdf)
   performance.mark('end getHierarchy')
   performance.measure('getHierarchy', 'begin getHierarchy', 'end getHierarchy')
 

@@ -7,7 +7,7 @@ import fromStream from 'rdf-dataset-ext/fromStream.js'
 import { meta } from '@zazuko/vocabulary-extras-builders'
 import { findNodes } from 'clownface-shacl-path'
 import { isGraphPointer } from 'is-graph-pointer'
-import { constructQuery } from '@hydrofoil/shape-to-query'
+import { constructQuery, Options as ShapeToQueryOptions } from '@hydrofoil/shape-to-query'
 import { fromHierarchy, PropertyWithConstraints } from './lib/hierarchyShape.js'
 
 export class HierarchyNode {
@@ -40,9 +40,10 @@ export interface Hierarchy {
 
 interface GetHierarchyOptions {
   properties?: Array<NamedNode | PropertyWithConstraints>
+  shapeToQueryOptions?: ShapeToQueryOptions
 }
 
-export function getHierarchy(hierarchy: GraphPointer, { properties = [] }: GetHierarchyOptions = {}): Hierarchy {
+export function getHierarchy(hierarchy: GraphPointer, { properties = [], shapeToQueryOptions }: GetHierarchyOptions = {}): Hierarchy {
   const constraints = {
     properties: properties.reduce<PropertyWithConstraints[]>((previousValue, currentValue) => {
       const next: PropertyWithConstraints = 'termType' in currentValue ? [currentValue, {}] : currentValue
@@ -50,7 +51,7 @@ export function getHierarchy(hierarchy: GraphPointer, { properties = [] }: GetHi
     }, []),
   }
 
-  const query = constructQuery(fromHierarchy(hierarchy, constraints))
+  const query = constructQuery(fromHierarchy(hierarchy, constraints), shapeToQueryOptions)
   return {
     query,
     async execute(client, $rdf) {

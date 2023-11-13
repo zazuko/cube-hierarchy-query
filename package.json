@@ -35,10 +35,10 @@
   },
   "homepage": "https://github.com/zazuko/cube-hierarchy-query#readme",
   "dependencies": {
-    "@hydrofoil/shape-to-query": "^0.9.2",
+    "@hydrofoil/shape-to-query": "^0.9.3",
     "@tpluscode/sparql-builder": "^1.1.0",
     "@types/sparql-http-client": "^2.2.8",
-    "@zazuko/env": "^1.7.0",
+    "@zazuko/env": "^1.10.1",
     "@zazuko/vocabulary-extras-builders": "^1.0.3",
     "clownface-shacl-path": "^2.0.1",
     "is-graph-pointer": "^2.0.0",

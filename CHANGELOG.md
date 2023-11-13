@@ -1,5 +1,16 @@
 # @zazuko/cube-hierarchy-query
 
+## 2.2.0
+
+### Minor Changes
+
+- b8fd9b7: `getHierarchy`: add options to forward to `@hydrofoil/shape-to-query`
+
+### Patch Changes
+
+- b8fd9b7: Update `@zazuko/env` to `1.10.1`
+- b8fd9b7: Update `@hydrofoil/shape-to-query` - allows extending `PropertyShape` (see [example/hierarchy.ts](example/hierarchy.ts))
+
 ## 2.1.1
 
 ### Patch Changes

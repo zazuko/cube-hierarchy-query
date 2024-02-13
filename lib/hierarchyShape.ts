@@ -1,4 +1,4 @@
-import { NamedNode } from 'rdf-js'
+import { NamedNode, Term } from 'rdf-js'
 import rdf from '@zazuko/env'
 import type { GraphPointer } from 'clownface'
 import { meta } from '@zazuko/vocabulary-extras-builders'
@@ -49,7 +49,7 @@ export function fromHierarchy(hierarchy: GraphPointer, constraints: HierarchyCon
 
         const targetClass = currentLevel.out(rdf.ns.sh.targetClass).term
         if (targetClass) {
-          constraint.addOut(rdf.ns.sh.class, targetClass)
+          addTargetClassFilter(constraint, targetClass)
         }
 
         if (isNamedNode(path)) {
@@ -63,6 +63,20 @@ export function fromHierarchy(hierarchy: GraphPointer, constraints: HierarchyCon
   }
 
   return rootShape
+}
+
+function addTargetClassFilter(constraint: GraphPointer, targetClass: Term) {
+  constraint.addOut(rdf.ns.sh.values, rule => {
+    rule.addOut(rdf.ns.sh.nodes, path => {
+      path.addOut(rdf.ns.sh.path, constraint.out(rdf.ns.sh.path))
+    })
+    rule.addOut(rdf.ns.sh.filterShape, filter => {
+      filter.addOut(rdf.ns.sh.property, type => {
+        type.addOut(rdf.ns.sh.path, rdf.ns.rdf.type)
+        type.addOut(rdf.ns.sh.hasValue, targetClass)
+      })
+    })
+  })
 }
 
 function addPropertyConstraints(shape: GraphPointer, { properties = [] }: HierarchyConstraints) {

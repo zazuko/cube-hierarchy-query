@@ -1,5 +1,12 @@
 # @zazuko/cube-hierarchy-query
 
+## 2.2.1
+
+### Patch Changes
+
+- cbeead9: Large hierachies could cause `414 URI Too Long` respose
+- 82265d5: Prevent `sh:targetClass` from knocking out hierarchy nodes without targets (fixes #31)
+
 ## 2.2.0
 
 ### Minor Changes

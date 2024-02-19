@@ -55,7 +55,7 @@ export function getHierarchy(hierarchy: GraphPointer, { properties = [], shapeTo
   return {
     query,
     async execute(client, $rdf) {
-      const stream = await query.execute(client.query)
+      const stream = await query.execute(client.query, { operation: 'postUrlencoded' })
       const dataset = await fromStream($rdf.dataset(), stream)
       const roots = rdf.clownface({ dataset }).node(hierarchy.out(meta.hierarchyRoot))
 

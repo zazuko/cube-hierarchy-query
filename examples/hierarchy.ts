@@ -13,6 +13,7 @@ const main = async () => {
   parser.add_argument('--cube', { required: true })
   parser.add_argument('--dimensionIri', { required: false })
   parser.add_argument('--endpoint', { required: false, default: 'https://int.lindas.admin.ch/query' })
+  parser.add_argument('--print-query', { action: 'store_true' })
 
   const args = parser.parse_args()
   const endpoint = {
@@ -41,13 +42,20 @@ const main = async () => {
     throw new Error(`Hierarchy not found ${args.dimensionIri}`)
   }
 
-  performance.mark('begin getHierarchy')
-  const results = await getHierarchy(hierarchy, {
+  const hierarchyQuery = getHierarchy(hierarchy, {
     properties: [
       $rdf.ns.schema.identifier,
       [$rdf.ns.schema.name, { language: 'de' }],
     ],
-  }).execute(client, $rdf)
+  })
+
+  if (args.print_query) {
+    console.log(hierarchyQuery.query.build())
+    process.exit(0)
+  }
+
+  performance.mark('begin getHierarchy')
+  const results = await hierarchyQuery.execute(client, $rdf)
   performance.mark('end getHierarchy')
   performance.measure('getHierarchy', 'begin getHierarchy', 'end getHierarchy')
 

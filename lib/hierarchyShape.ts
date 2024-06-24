@@ -88,10 +88,6 @@ function addPropertyConstraints(shape: GraphPointer, { properties = [] }: Hierar
   }
 
   properties.forEach(addProperty.bind(null, shape))
-
-  if (!properties.find(([prop]) => prop.equals(rdf.ns.rdf.type))) {
-    addProperty(shape, [rdf.ns.rdf.type, {}])
-  }
 }
 
 function addProperty(shape: GraphPointer, [property, constraints]: PropertyWithConstraints) {

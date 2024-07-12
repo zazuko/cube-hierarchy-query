@@ -32,6 +32,7 @@ export class HierarchyNode {
 
 export interface Hierarchy {
   query: Construct
+  shape: GraphPointer
   execute(
     client: StreamClient,
     rdf: DatasetCoreFactory,
@@ -51,9 +52,11 @@ export function getHierarchy(hierarchy: GraphPointer, { properties = [], shapeTo
     }, []),
   }
 
-  const query = constructQuery(fromHierarchy(hierarchy, constraints), shapeToQueryOptions)
+  const shape = fromHierarchy(hierarchy, constraints)
+  const query = constructQuery(shape, shapeToQueryOptions)
   return {
     query,
+    shape,
     async execute(client, $rdf) {
       const stream = await query.execute(client.query, { operation: 'postUrlencoded' })
       const dataset = await fromStream($rdf.dataset(), stream)

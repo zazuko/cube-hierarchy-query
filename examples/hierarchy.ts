@@ -7,6 +7,7 @@ import { Source } from 'rdf-cube-view-query'
 import { meta } from '@zazuko/vocabulary-extras-builders'
 import { isGraphPointer } from 'is-graph-pointer'
 import { getHierarchy, HierarchyNode } from '../index.js'
+import { cbd } from './util.js'
 
 const main = async () => {
   const parser = new argparse.ArgumentParser()
@@ -14,6 +15,7 @@ const main = async () => {
   parser.add_argument('--dimensionIri', { required: false })
   parser.add_argument('--endpoint', { required: false, default: 'https://int.lindas.admin.ch/query' })
   parser.add_argument('--print-query', { action: 'store_true' })
+  parser.add_argument('--print-shape', { action: 'store_true' })
 
   const args = parser.parse_args()
   const endpoint = {
@@ -48,6 +50,12 @@ const main = async () => {
       [$rdf.ns.schema.name, { language: 'de' }],
     ],
   })
+
+  if (args.print_shape) {
+    const shapeQuads = cbd(hierarchyQuery.shape)
+    console.log($rdf.dataset.toCanonical(shapeQuads))
+    process.exit(0)
+  }
 
   if (args.print_query) {
     console.log(hierarchyQuery.query.build())

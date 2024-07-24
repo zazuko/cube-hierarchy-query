@@ -2,246 +2,97 @@
 
 exports[`@zazuko/cube-hierarchy-query getHierarchy loads all levels 1`] = `
 "PREFIX schema: <http://schema.org/>
-
-CONSTRUCT { 
-    ?resource2 schema:containedInPlace ?resource1 .
-?resource1 ?resource24 ?resource25 .
-?resource3 schema:containedInPlace ?resource2 .
-?resource2 ?resource18 ?resource19 .
-?resource4 schema:containedInPlace ?resource3 .
-?resource3 ?resource13 ?resource14 .
-?resource4 schema:containsPlace ?resource5 .
-?resource4 ?resource9 ?resource10 .
-?resource5 ?resource6 ?resource7 .
-   }
-
-WHERE {
-
-    { 
-    { SELECT ?resource2
-?resource1
-?resource24
-?resource25
-
-WHERE {
-
-
-VALUES ( ?resource1 )
-{
-( <http://example.com/Europe> )
-( <http://example.com/North-America> )
-( <http://example.com/South-America> )
-( <http://example.com/Asia> )
+CONSTRUCT {
+  ?resource2 schema:containedInPlace ?resource1.
+  ?resource1 ?resource24 ?resource25.
+  ?resource3 schema:containedInPlace ?resource2.
+  ?resource2 ?resource18 ?resource19.
+  ?resource4 schema:containedInPlace ?resource3.
+  ?resource3 ?resource13 ?resource14.
+  ?resource4 schema:containsPlace ?resource5.
+  ?resource4 ?resource9 ?resource10.
+  ?resource5 ?resource6 ?resource7.
 }
-{ 
-    
-
-?resource2 schema:containedInPlace ?resource1 .
- 
-  } UNION {
-      
-        ?resource1 ?resource24 ?resource25 .
-        
-        
-      
+WHERE {
+  {
+    SELECT ?resource2 ?resource1 ?resource24 ?resource25 WHERE {
+      VALUES ?resource1 {
+        <http://example.com/Europe>
+        <http://example.com/North-America>
+        <http://example.com/South-America>
+        <http://example.com/Asia>
+      }
+      { ?resource2 schema:containedInPlace ?resource1. }
+      UNION
+      { ?resource1 ?resource24 ?resource25. }
     }
-
-
-
-
-}
-
-
-
- } 
-  } UNION {
-      { SELECT ?resource3
-?resource2
-?resource18
-?resource19
-
-WHERE {
-
-            
-VALUES ( ?resource1 )
-{
-( <http://example.com/Europe> )
-( <http://example.com/North-America> )
-( <http://example.com/South-America> )
-( <http://example.com/Asia> )
-}
-            
-?resource2 schema:containedInPlace ?resource1 .
-
-            
-
-{ 
-    
-
-?resource3 schema:containedInPlace ?resource2 .
- 
-  } UNION {
-      
-        ?resource2 ?resource18 ?resource19 .
-        
-        
-      
+  }
+  UNION
+  {
+    SELECT ?resource3 ?resource2 ?resource18 ?resource19 WHERE {
+      VALUES ?resource1 {
+        <http://example.com/Europe>
+        <http://example.com/North-America>
+        <http://example.com/South-America>
+        <http://example.com/Asia>
+      }
+      ?resource2 schema:containedInPlace ?resource1.
+      { ?resource3 schema:containedInPlace ?resource2. }
+      UNION
+      { ?resource2 ?resource18 ?resource19. }
     }
-
-          
-
-
-}
-
-
-
- }
-    } UNION {
-      { SELECT ?resource4
-?resource3
-?resource13
-?resource14
-
-WHERE {
-
-            
-VALUES ( ?resource1 )
-{
-( <http://example.com/Europe> )
-( <http://example.com/North-America> )
-( <http://example.com/South-America> )
-( <http://example.com/Asia> )
-}
-
-?resource2 schema:containedInPlace ?resource1 .
-
-
-            
-?resource3 schema:containedInPlace ?resource2 .
-
-            
-
-{ 
-    
-
-?resource4 schema:containedInPlace ?resource3 .
- 
-  } UNION {
-      
-        ?resource3 ?resource13 ?resource14 .
-        
-        
-      
+  }
+  UNION
+  {
+    SELECT ?resource4 ?resource3 ?resource13 ?resource14 WHERE {
+      VALUES ?resource1 {
+        <http://example.com/Europe>
+        <http://example.com/North-America>
+        <http://example.com/South-America>
+        <http://example.com/Asia>
+      }
+      ?resource2 schema:containedInPlace ?resource1.
+      ?resource3 schema:containedInPlace ?resource2.
+      { ?resource4 schema:containedInPlace ?resource3. }
+      UNION
+      { ?resource3 ?resource13 ?resource14. }
     }
-
-          
-
-
-}
-
-
-
- }
-    } UNION {
-      { SELECT ?resource4
-?resource5
-?resource9
-?resource10
-
-WHERE {
-
-            
-VALUES ( ?resource1 )
-{
-( <http://example.com/Europe> )
-( <http://example.com/North-America> )
-( <http://example.com/South-America> )
-( <http://example.com/Asia> )
-}
-
-?resource2 schema:containedInPlace ?resource1 .
-
-
-
-?resource3 schema:containedInPlace ?resource2 .
-
-
-            
-?resource4 schema:containedInPlace ?resource3 .
-
-            
-
-{ 
-    
-
-?resource4 schema:containsPlace ?resource5 .
- 
-  } UNION {
-      
-        ?resource4 ?resource9 ?resource10 .
-        
-
-FILTER((!((?resource9 = schema:containsPlace))))
-        
-      
+  }
+  UNION
+  {
+    SELECT ?resource4 ?resource5 ?resource9 ?resource10 WHERE {
+      VALUES ?resource1 {
+        <http://example.com/Europe>
+        <http://example.com/North-America>
+        <http://example.com/South-America>
+        <http://example.com/Asia>
+      }
+      ?resource2 schema:containedInPlace ?resource1.
+      ?resource3 schema:containedInPlace ?resource2.
+      ?resource4 schema:containedInPlace ?resource3.
+      { ?resource4 schema:containsPlace ?resource5. }
+      UNION
+      {
+        ?resource4 ?resource9 ?resource10.
+        FILTER(!(?resource9 = schema:containsPlace))
+      }
     }
-
-          
-
-
-}
-
-
-
- }
-    } UNION {
-      { SELECT ?resource5
-?resource6
-?resource7
-
-WHERE {
-
-            
-VALUES ( ?resource1 )
-{
-( <http://example.com/Europe> )
-( <http://example.com/North-America> )
-( <http://example.com/South-America> )
-( <http://example.com/Asia> )
-}
-
-?resource2 schema:containedInPlace ?resource1 .
-
-
-
-?resource3 schema:containedInPlace ?resource2 .
-
-
-
-?resource4 schema:containedInPlace ?resource3 .
-
-
-            
-?resource4 schema:containsPlace ?resource5 .
-
-            
-
-
-        ?resource5 ?resource6 ?resource7 .
-        
-        
-      
-
-          
-
-
-}
-
-
-
- }
+  }
+  UNION
+  {
+    SELECT ?resource5 ?resource6 ?resource7 WHERE {
+      VALUES ?resource1 {
+        <http://example.com/Europe>
+        <http://example.com/North-America>
+        <http://example.com/South-America>
+        <http://example.com/Asia>
+      }
+      ?resource2 schema:containedInPlace ?resource1.
+      ?resource3 schema:containedInPlace ?resource2.
+      ?resource4 schema:containedInPlace ?resource3;
+        schema:containsPlace ?resource5.
+      ?resource5 ?resource6 ?resource7.
     }
-  
-}
-"
+  }
+}"
 `;

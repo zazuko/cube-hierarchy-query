@@ -58,7 +58,7 @@ const main = async () => {
   }
 
   if (args.print_query) {
-    console.log(hierarchyQuery.query.build())
+    console.log(hierarchyQuery.query)
     process.exit(0)
   }
 
@@ -69,7 +69,8 @@ const main = async () => {
 
   results.forEach(print(0))
 
-  log('perf')(performance.getEntriesByType('measure').map(measure => `${measure.name}: ${measure.duration} ms`).join('\n'))
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ;(log as any)('perf')(performance.getEntriesByType('measure').map(measure => `${measure.name}: ${measure.duration} ms`).join('\n'))
 }
 
 function print(indent: number) {

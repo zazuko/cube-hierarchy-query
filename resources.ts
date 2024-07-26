@@ -87,7 +87,7 @@ export function children(
   return {
     query,
     execute: async function (client: StreamClient, $rdf: DatasetCoreFactory) {
-      const stream = await query.execute(client.query)
+      const stream = await query.execute(client)
       const dataset = await fromStream($rdf.dataset(), stream)
 
       const parentNode = rdf.clownface({ dataset, term: parent })

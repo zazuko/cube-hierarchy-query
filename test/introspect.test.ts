@@ -23,7 +23,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await query.execute(client.query))
+      const dataset = $rdf.dataset(await query.execute(client))
 
       // then
       const result = $rdf.clownface({ dataset })
@@ -43,7 +43,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await query.execute(client.query))
+      const dataset = $rdf.dataset(await query.execute(client))
 
       // then
       const results = $rdf.clownface({ dataset })
@@ -66,7 +66,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await query.execute(client.query))
+      const dataset = $rdf.dataset(await query.execute(client))
 
       // then
       const result = $rdf.clownface({ dataset })
@@ -102,7 +102,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = properties(hierarchy.namedNode(ex.municipalityLevel))
 
       // when
-      const dataset = $rdf.dataset(await query.execute(client.query))
+      const dataset = $rdf.dataset(await query.execute(client))
 
       // then
       const result = $rdf.clownface({ dataset })
@@ -155,7 +155,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = types(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await query.execute(client.query))
+      const dataset = $rdf.dataset(await query.execute(client))
 
       // then
       const result = $rdf.termSet($rdf.clownface({ dataset }).has($rdf.ns.rdfs.label).terms)
@@ -175,7 +175,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       const query = types(hierarchy.namedNode(ex.firstLevel))
 
       // when
-      const dataset = $rdf.dataset(await query.execute(client.query))
+      const dataset = $rdf.dataset(await query.execute(client))
 
       // then
       const result = $rdf.clownface({ dataset })

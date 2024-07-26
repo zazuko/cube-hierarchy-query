@@ -43,7 +43,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
 
       // when
       const query = example(hierarchy.namedNode(ex.firstLevel))
-      const dataset = $rdf.dataset(await query.execute(client.query))
+      const dataset = $rdf.dataset(await query.execute(client))
 
       // then
       const country = $rdf.clownface({ dataset }).has($rdf.ns.rdf.type)
@@ -67,7 +67,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
 
       // when
       const query = example(hierarchy.namedNode(ex.firstLevel))
-      const dataset = $rdf.dataset(await query.execute(client.query))
+      const dataset = $rdf.dataset(await query.execute(client))
 
       // then
       const country = $rdf.clownface({ dataset }).has($rdf.ns.rdf.type)

@@ -53,7 +53,7 @@ describe('@zazuko/cube-hierarchy-query', () => {
       const hierarchyQuery = getHierarchy(hierarchy.namedNode(ex('')))
       const hierarchyTree = await hierarchyQuery.execute(streamClient, $rdf)
 
-      expect(hierarchyQuery.query.build()).to.matchSnapshot()
+      expect(hierarchyQuery.query).to.matchSnapshot()
 
       const plainTree = hierarchyTree.map(toPlain)
 

@@ -1,7 +1,6 @@
 import { DatasetCoreFactory, NamedNode } from 'rdf-js'
 import rdf from '@zazuko/env'
 import type { GraphPointer } from 'clownface'
-import { Construct } from '@tpluscode/sparql-builder'
 import type StreamClient from 'sparql-http-client'
 import fromStream from 'rdf-dataset-ext/fromStream.js'
 import { meta } from '@zazuko/vocabulary-extras-builders'
@@ -31,7 +30,7 @@ export class HierarchyNode {
 }
 
 export interface Hierarchy {
-  query: Construct
+  query: string
   shape: GraphPointer
   execute(
     client: StreamClient,
@@ -58,7 +57,7 @@ export function getHierarchy(hierarchy: GraphPointer, { properties = [], shapeTo
     query,
     shape,
     async execute(client, $rdf) {
-      const stream = await query.execute(client.query, { operation: 'postUrlencoded' })
+      const stream = await client.query.construct(query, { operation: 'postUrlencoded' })
       const dataset = await fromStream($rdf.dataset(), stream)
       const roots = rdf.clownface({ dataset }).node(hierarchy.out(meta.hierarchyRoot))
 

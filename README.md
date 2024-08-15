@@ -148,9 +148,8 @@ To run call from `example` NPM script and pass the example file's path as argume
 yarn example ./examples/children.ts
 ```
 
-To have the executed queries printed in the console, set a `DEBUG` environment variable:
+To have the executed queries printed in the console, set a command flag:
 
 ```diff
--yarn example ./examples/children.ts
-+DEBUG=SPARQL yarn example ./examples/children.ts
+yarn example ./examples/children.ts --print-query
 ```

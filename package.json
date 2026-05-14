@@ -62,7 +62,7 @@
     "chai": "^4.3.6",
     "chai-subset": "^1.6.0",
     "debug": "^4.3.4",
-    "docker-compose": "^0.23.17",
+    "docker-compose": "^1.4.2",
     "get-stream": "^7.0.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.7",

@@ -1,7 +1,7 @@
 import type { DatasetCoreFactory, NamedNode } from '@rdfjs/types'
 import rdf from '@zazuko/env'
 import type { GraphPointer } from 'clownface'
-import type StreamClient from 'sparql-http-client'
+import type { StreamClient } from 'sparql-http-client/StreamClient.js'
 import fromStream from 'rdf-dataset-ext/fromStream.js'
 import { meta } from '@zazuko/vocabulary-extras-builders'
 import { findNodes } from 'clownface-shacl-path'

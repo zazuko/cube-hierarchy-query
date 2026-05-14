@@ -6,13 +6,13 @@ import { client } from './client.js'
 import { ex, parse, startFuseki } from './support.js'
 import { insertGeoData } from './testData.js'
 
-describe('@zazuko/cube-hierarchy-query/introspect', () => {
+describe('@zazuko/cube-hierarchy-query/introspect', function () {
   before(startFuseki)
 
   before(insertGeoData)
 
-  describe('properties', () => {
-    it('returns properties for first level', async () => {
+  describe('properties', function () {
+    it('returns properties for first level', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -30,7 +30,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       expect(result.node($rdf.ns.rdf.type).out($rdf.ns.rdfs.label).terms).to.have.length.gt(0)
     })
 
-    it('filters by resources at level by sh:targetClass', async () => {
+    it('filters by resources at level by sh:targetClass', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -53,7 +53,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       expect(results[0].equals($rdf.ns.schema.containedInPlace))
     })
 
-    it('returns inverse properties for first level', async () => {
+    it('returns inverse properties for first level', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -73,7 +73,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       expect(result.node($rdf.ns.schema.containedInPlace).out($rdf.ns.rdfs.label).terms).to.have.length.gt(0)
     })
 
-    it('returns inverse properties for deep level', async () => {
+    it('returns inverse properties for deep level', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -109,7 +109,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       expect(result.node($rdf.ns.schema.containsPlace).out($rdf.ns.rdfs.label).terms).to.have.length.gt(0)
     })
 
-    it('returns empty string if an intermediate path is invalid', async () => {
+    it('returns empty string if an intermediate path is invalid', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -142,8 +142,8 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
     })
   })
 
-  describe('types', () => {
-    it('returns types of resources in specific level in hierarchy', async () => {
+  describe('types', function () {
+    it('returns types of resources in specific level in hierarchy', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -163,7 +163,7 @@ describe('@zazuko/cube-hierarchy-query/introspect', () => {
       expect(result.has(ex.Country))
     })
 
-    it('handles multiple roots', async () => {
+    it('handles multiple roots', async function () {
       // given
       const hierarchy = await parse`
         <>

@@ -1,4 +1,4 @@
-import { NamedNode, Term } from 'rdf-js'
+import type { NamedNode, Term } from '@rdfjs/types'
 import rdf from '@zazuko/env'
 import type { GraphPointer } from 'clownface'
 import { meta } from '@zazuko/vocabulary-extras-builders'

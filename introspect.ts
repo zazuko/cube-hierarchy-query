@@ -1,4 +1,5 @@
-import { Construct, CONSTRUCT, SELECT } from '@tpluscode/sparql-builder'
+import type { Construct } from '@tpluscode/sparql-builder'
+import { CONSTRUCT, SELECT } from '@tpluscode/sparql-builder'
 import type { GraphPointer } from 'clownface'
 import { meta } from '@zazuko/vocabulary-extras-builders'
 import rdf from '@zazuko/env'

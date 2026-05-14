@@ -2,19 +2,20 @@ import { meta } from '@zazuko/vocabulary-extras-builders'
 import chai, { expect } from 'chai'
 import $rdf from '@zazuko/env'
 import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot'
-import { getHierarchy, HierarchyNode } from '../index.js'
+import type { HierarchyNode } from '../index.js'
+import { getHierarchy } from '../index.js'
 import { ex, parse, startFuseki } from './support.js'
 import { insertGeoData } from './testData.js'
 import { streamClient } from './client.js'
 
-describe('@zazuko/cube-hierarchy-query', () => {
+describe('@zazuko/cube-hierarchy-query', function () {
   chai.use(jestSnapshotPlugin())
 
   before(startFuseki)
 
   before(insertGeoData)
 
-  describe('getHierarchy', () => {
+  describe('getHierarchy', function () {
     const countriesHierarchy = parse`
       <>
         ${meta.hierarchyRoot} <Europe>, <North-America>, <South-America>, <Asia> ;
@@ -106,7 +107,7 @@ describe('@zazuko/cube-hierarchy-query', () => {
       ])
     })
 
-    it('loads shallower paths', async () => {
+    it('loads shallower paths', async function () {
       // given
       const hierarchy = await countriesHierarchy
 
@@ -131,7 +132,7 @@ describe('@zazuko/cube-hierarchy-query', () => {
       }])
     })
 
-    it('applies type filter', async () => {
+    it('applies type filter', async function () {
       // given
       const hierarchy = await countriesHierarchy
       hierarchy.namedNode(ex('countryLevel'))
@@ -150,7 +151,7 @@ describe('@zazuko/cube-hierarchy-query', () => {
       }])
     })
 
-    it('loads only chosen properties, including language filter', async () => {
+    it('loads only chosen properties, including language filter', async function () {
       // given
       const hierarchy = await countriesHierarchy
 

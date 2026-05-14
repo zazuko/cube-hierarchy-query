@@ -6,13 +6,13 @@ import { client, streamClient } from './client.js'
 import { ex, parse, startFuseki } from './support.js'
 import { insertGeoData } from './testData.js'
 
-describe('@zazuko/cube-hierarchy-query/resources', () => {
+describe('@zazuko/cube-hierarchy-query/resources', function () {
   before(startFuseki)
 
   before(insertGeoData)
 
-  describe('example', () => {
-    it('returns empty query when last property id not defined', async () => {
+  describe('example', function () {
+    it('returns empty query when last property id not defined', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -29,7 +29,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       expect(query).to.be.null
     })
 
-    it('returns single instance', async () => {
+    it('returns single instance', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -50,7 +50,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       expect(country.term).to.deep.eq(ex.CH)
     })
 
-    it('returns instance narrowed by class name', async () => {
+    it('returns instance narrowed by class name', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -75,8 +75,8 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
     })
   })
 
-  describe('children', () => {
-    it('return N matched children by inverse path', async () => {
+  describe('children', function () {
+    it('return N matched children by inverse path', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -98,7 +98,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       expect(result).to.have.length(1)
     })
 
-    it('return N matched children by direct path', async () => {
+    it('return N matched children by direct path', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -140,7 +140,7 @@ describe('@zazuko/cube-hierarchy-query/resources', () => {
       expect(result).to.have.length(1)
     })
 
-    it('return N matched children, sorted and offset', async () => {
+    it('return N matched children, sorted and offset', async function () {
       // given
       const hierarchy = await parse`
         <>

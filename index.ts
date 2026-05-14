@@ -1,4 +1,4 @@
-import { DatasetCoreFactory, NamedNode } from 'rdf-js'
+import type { DatasetCoreFactory, NamedNode } from '@rdfjs/types'
 import rdf from '@zazuko/env'
 import type { GraphPointer } from 'clownface'
 import type StreamClient from 'sparql-http-client'
@@ -6,8 +6,10 @@ import fromStream from 'rdf-dataset-ext/fromStream.js'
 import { meta } from '@zazuko/vocabulary-extras-builders'
 import { findNodes } from 'clownface-shacl-path'
 import { isGraphPointer } from 'is-graph-pointer'
-import { constructQuery, Options as ShapeToQueryOptions } from '@hydrofoil/shape-to-query'
-import { fromHierarchy, PropertyWithConstraints } from './lib/hierarchyShape.js'
+import type { Options as ShapeToQueryOptions } from '@hydrofoil/shape-to-query'
+import { constructQuery } from '@hydrofoil/shape-to-query'
+import type { PropertyWithConstraints } from './lib/hierarchyShape.js'
+import { fromHierarchy } from './lib/hierarchyShape.js'
 
 export class HierarchyNode {
   constructor(public readonly resource: GraphPointer, private hierarchyLevel: GraphPointer) {

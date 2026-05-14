@@ -5,11 +5,11 @@ import { jestSnapshotPlugin } from 'mocha-chai-jest-snapshot'
 import { fromHierarchy } from '../../lib/hierarchyShape.js'
 import { ex, parse, serialize } from '../support.js'
 
-describe('lib/hierarchyShape', () => {
+describe('lib/hierarchyShape', function () {
   chai.use(jestSnapshotPlugin())
 
-  describe('fromHierarchy', () => {
-    it('excludes property from SPO rule', async () => {
+  describe('fromHierarchy', function () {
+    it('excludes property from SPO rule', async function () {
       // given
       const hierarchy = await parse`
         <>
@@ -32,7 +32,7 @@ describe('lib/hierarchyShape', () => {
       ).toMatchSnapshot()
     })
 
-    it('does not add excludes when properties are inverse', async () => {
+    it('does not add excludes when properties are inverse', async function () {
       // given
       const hierarchy = await parse`
         <>

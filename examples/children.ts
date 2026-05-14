@@ -1,7 +1,7 @@
 import { Source } from 'rdf-cube-view-query'
 import { meta } from '@zazuko/vocabulary-extras-builders'
 import StreamClient from 'sparql-http-client'
-import { MultiPointer } from 'clownface'
+import type { MultiPointer } from 'clownface'
 import $rdf from '@zazuko/env'
 import argparse from 'argparse'
 import { children } from '../resources.js'

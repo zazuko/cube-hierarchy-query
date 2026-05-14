@@ -6,7 +6,8 @@ import $rdf from '@zazuko/env'
 import { Source } from 'rdf-cube-view-query'
 import { meta } from '@zazuko/vocabulary-extras-builders'
 import { isGraphPointer } from 'is-graph-pointer'
-import { getHierarchy, HierarchyNode } from '../index.js'
+import type { HierarchyNode } from '../index.js'
+import { getHierarchy } from '../index.js'
 import { cbd } from './util.js'
 
 const main = async () => {

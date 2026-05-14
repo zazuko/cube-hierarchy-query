@@ -1,6 +1,7 @@
-import { Term } from 'rdf-js'
+import type { Term } from '@rdfjs/types'
 import type { MultiPointer } from 'clownface'
-import { sparql, SparqlTemplateResult } from '@tpluscode/sparql-builder'
+import type { SparqlTemplateResult } from '@tpluscode/sparql-builder'
+import { sparql } from '@tpluscode/sparql-builder'
 import { toSparql } from 'clownface-shacl-path'
 import { parent } from './variable.js'
 

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { DatasetCore } from 'rdf-js'
-import { GraphPointer } from 'clownface'
+import type { DatasetCore } from '@rdfjs/types'
+import type { GraphPointer } from 'clownface'
 import $rdf from '@zazuko/env'
 
 export function cbd(ptr: GraphPointer): DatasetCore {

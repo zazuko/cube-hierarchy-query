@@ -1,5 +1,11 @@
 # @zazuko/cube-hierarchy-query
 
+## 3.0.2
+
+### Patch Changes
+
+- bb404ec: Update import of `StreamClient` to be interface and not class
+
 ## 3.0.1
 
 ### Patch Changes

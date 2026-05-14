@@ -1,5 +1,11 @@
 # @zazuko/cube-hierarchy-query
 
+## 3.0.1
+
+### Patch Changes
+
+- 69bb31f: Updated `@tpluscode/sparql-builder` to v3
+
 ## 3.0.0
 
 ### Major Changes

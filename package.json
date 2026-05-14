@@ -73,7 +73,7 @@
     "string-to-stream": "^3.0.1",
     "ts-node": "^10.8.0",
     "typescript": "^5.5.4",
-    "wait-on": "^6.0.1"
+    "wait-on": "^9.0.10"
   },
   "mocha": {
     "loader": "ts-node/esm",
